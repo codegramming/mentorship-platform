@@ -5,6 +5,7 @@ import com.tayfurunal.mentorship.payload.ApiError;
 import com.tayfurunal.mentorship.payload.ApiResponse;
 import com.tayfurunal.mentorship.payload.AuthResponse;
 import com.tayfurunal.mentorship.payload.LoginRequest;
+import com.tayfurunal.mentorship.payload.LoginResponse;
 import com.tayfurunal.mentorship.payload.SignUpRequest;
 import com.tayfurunal.mentorship.repository.UserRepository;
 import com.tayfurunal.mentorship.security.TokenProvider;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -45,16 +47,13 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return getApiError("Username", "Username is already taken!");
         }
-
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return getApiError("Email", "Email is already taken!");
         }
 
         User user = new User(signUpRequest.getEmail(), signUpRequest.getUsername(), signUpRequest.getPassword());
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
         ApiResponse response = new ApiResponse(true, "User registered successfully");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -63,10 +62,13 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<AuthResponse> authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
+        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
+        LoginResponse loginResponse = new LoginResponse(user.get().getId(), user.get().getEmail(),
+                user.get().getUsername(), user.get().getAuthorities());
+        System.out.println(user.toString());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse(token, loginResponse));
     }
 
     private ResponseEntity<ApiError> getApiError(String title, String message) {

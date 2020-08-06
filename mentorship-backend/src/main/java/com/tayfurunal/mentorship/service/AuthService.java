@@ -1,6 +1,5 @@
 package com.tayfurunal.mentorship.service;
 
-import com.tayfurunal.mentorship.payload.AuthResponse;
 import com.tayfurunal.mentorship.payload.LoginRequest;
 import com.tayfurunal.mentorship.payload.SignUpRequest;
 
@@ -10,5 +9,5 @@ public interface AuthService {
 
     ResponseEntity<?> registerUser(SignUpRequest signUpRequest);
 
-    ResponseEntity<AuthResponse> authenticateUser(LoginRequest loginRequest);
+    ResponseEntity<?> authenticateUser(LoginRequest loginRequest);
 }
