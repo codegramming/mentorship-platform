@@ -9,6 +9,7 @@ import com.tayfurunal.mentorship.service.MentorService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,12 +44,14 @@ public class MentorController {
     }
 
     @PostMapping("/apply")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createApplication(@Valid @RequestBody MentorDto mentorDto, Principal principal) {
         Mentor mentor = MentorMapper.INSTANCE.toEntity(mentorDto);
         return mentorService.applyMentorship(mentor, principal.getName());
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllApplicationByProgress() {
         return mentorService.getAllByProgress();
     }
@@ -59,6 +62,7 @@ public class MentorController {
     }
 
     @PutMapping("/changeStatus/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> changeApplyStatus(@Valid @RequestBody ApplyStatusRequest status,
                                                @PathVariable(value = "id", required = true) Long id) {
         return mentorService.changeApplyStatus(status, id);
