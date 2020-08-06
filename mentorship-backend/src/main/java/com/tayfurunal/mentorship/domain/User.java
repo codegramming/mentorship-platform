@@ -4,12 +4,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -35,14 +40,20 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(name = "password")
     private String password;
 
-    /*@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<TaskCard> taskCards;*/
+    @ManyToMany
+    @JoinTable(name = "mentor_user",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mentor_id")})
+    private Set<Mentor> mentors = new HashSet<Mentor>();
+
+    @ManyToMany
+    @JoinTable(name = "mentee_user",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mentee_id")})
+    private Set<Mentee> mentees = new HashSet<Mentee>();
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
