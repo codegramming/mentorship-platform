@@ -1,7 +1,6 @@
 package com.tayfurunal.mentorship.controller;
 
 import com.tayfurunal.mentorship.payload.ApiError;
-import com.tayfurunal.mentorship.payload.AuthResponse;
 import com.tayfurunal.mentorship.payload.LoginRequest;
 import com.tayfurunal.mentorship.payload.SignUpRequest;
 import com.tayfurunal.mentorship.service.AuthService;
@@ -48,7 +47,7 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Authenticate user")
-    public ResponseEntity<AuthResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
 
