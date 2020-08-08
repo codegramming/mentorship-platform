@@ -30,6 +30,7 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<ApiResponse> applyMentorship(Mentor mentor, String username) {
         User user = userRepository.getByUsername(username);
         user.getMentors().add(mentor);
+        mentor.setUser(user);
         mentorRepository.save(mentor);
 
         ApiResponse response = new ApiResponse(true, "Mentorship application is successfully");
