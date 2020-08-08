@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -29,6 +30,9 @@ public class Mentor {
 
     @Enumerated(EnumType.STRING)
     private progressStatus status = progressStatus.IN_PROGRESS;
+
+    @OneToOne
+    private User user;
 
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mentee> mentees = new ArrayList<>();
