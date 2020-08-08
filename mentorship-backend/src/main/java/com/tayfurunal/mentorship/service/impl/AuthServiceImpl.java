@@ -51,7 +51,8 @@ public class AuthServiceImpl implements AuthService {
             return getApiError("Email", "Email is already taken!");
         }
 
-        User user = new User(signUpRequest.getEmail(), signUpRequest.getUsername(), signUpRequest.getPassword());
+        User user = new User(signUpRequest.getEmail(), signUpRequest.getUsername(),
+                signUpRequest.getDisplayName(), signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         ApiResponse response = new ApiResponse(true, "User registered successfully");
@@ -61,8 +62,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<AuthResponse> authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate
-                (new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
+                (new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
         LoginResponse loginResponse = new LoginResponse(user.get().getId(), user.get().getEmail(),
                 user.get().getUsername(), user.get().getAuthorities());
         System.out.println(user.toString());

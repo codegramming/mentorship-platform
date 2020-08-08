@@ -31,6 +31,12 @@ public class SignUpRequest {
 
     @NonNull
     @NotBlank
+    @Size(min = 4, max = 16)
+    @ApiModelProperty(required = true)
+    private String displayName;
+
+    @NonNull
+    @NotBlank
     @Size(min = 1, max = 128)
     @ApiModelProperty(required = true)
     private String password;

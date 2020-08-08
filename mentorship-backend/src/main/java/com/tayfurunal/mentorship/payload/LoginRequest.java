@@ -1,6 +1,5 @@
 package com.tayfurunal.mentorship.payload;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -16,12 +15,11 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
-    @Email
     @NonNull
     @NotBlank
     @Size(min = 1, max = 128)
     @ApiModelProperty(required = true)
-    private String email;
+    private String username;
 
     @NonNull
     @NotBlank
