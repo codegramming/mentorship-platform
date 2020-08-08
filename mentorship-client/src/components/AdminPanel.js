@@ -14,7 +14,7 @@ class AdminPanel extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.security.roles[0].includes('ADMIN')) {
+    if (!this.props.security.roles[0]?.includes('ADMIN')) {
       this.props.history.push('/');
     } else {
       this.getApplications();
@@ -41,47 +41,57 @@ class AdminPanel extends Component {
                 </h1>
                 <hr />
                 <div class='job-list__wrapper mb-6'>
-                  {this.state.applications.map((application, index) => {
-                    return (
-                      <>
-                        <div key={index}>
-                          <a
-                            href='career-single.html'
-                            class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
-                          >
-                            <div class='card-body'>
-                              <span class='row justify-content-between align-items-center'>
-                                <span class='col-md-5 color--heading'>
-                                  <span class='badge badge-circle background--success text-white mr-6'>
-                                    SE
-                                  </span>{' '}
-                                  <i class='fas fa-chalkboard-teacher mr-1'></i>
-                                  {application.user.displayName}
-                                </span>
+                  {this.state.applications.length === 0 ? (
+                    <div
+                      class='alert alert-info text-center'
+                      role='alert'
+                      style={{ marginTop: 30 }}
+                    >
+                      <h3>NO NEW APPLICATIONS</h3>
+                    </div>
+                  ) : (
+                    this.state.applications.map((application, index) => {
+                      return (
+                        <>
+                          <div key={index}>
+                            <Link
+                              to={`/mentorDetails/${application.id}`}
+                              class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                            >
+                              <div class='card-body'>
+                                <span class='row justify-content-between align-items-center'>
+                                  <span class='col-md-5 color--heading'>
+                                    <span class='badge badge-circle background--success text-white mr-6'>
+                                      SE
+                                    </span>{' '}
+                                    <i class='fas fa-chalkboard-teacher mr-1'></i>
+                                    {application.user.displayName}
+                                  </span>
 
-                                <span class='col-5 col-md-3 my-3 my-sm-0 color--text'>
-                                  <i class='fas fa-book-reader'></i>{' '}
-                                  {application.mainTopic}
-                                </span>
+                                  <span class='col-5 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i class='fas fa-book-reader'></i>{' '}
+                                    {application.mainTopic}
+                                  </span>
 
-                                <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
-                                  <i class='fad fa-ellipsis-h-alt'></i>{' '}
-                                  {console.log(application.mainTopic)}
-                                  {application.subTopics}
-                                </span>
+                                  <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i class='fad fa-ellipsis-h-alt'></i>{' '}
+                                    {console.log(application.mainTopic)}
+                                    {application.subTopics}
+                                  </span>
 
-                                <span class='d-none d-md-block col-1 text-center color--text'>
-                                  <small>
-                                    <i class='fas fa-chevron-right'></i>
-                                  </small>
+                                  <span class='d-none d-md-block col-1 text-center color--text'>
+                                    <small>
+                                      <i class='fas fa-chevron-right'></i>
+                                    </small>
+                                  </span>
                                 </span>
-                              </span>
-                            </div>
-                          </a>
-                        </div>
-                      </>
-                    );
-                  })}
+                              </div>
+                            </Link>
+                          </div>
+                        </>
+                      );
+                    })
+                  )}
                 </div>
               </div>
             </div>
