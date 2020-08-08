@@ -26,7 +26,7 @@ public class TokenProvider {
     private String tokenSecret;
 
     @Value("${app.auth.jwtExpirationInMs}")
-    private Long jwtExpirationInMs;
+    private int jwtExpirationInMinute;
 
     public String createToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -34,7 +34,7 @@ public class TokenProvider {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.MINUTE, 30);
+        calendar.add(Calendar.MINUTE, jwtExpirationInMinute);
         Date date1MinutesAdded = calendar.getTime();
 
         return Jwts.builder()
