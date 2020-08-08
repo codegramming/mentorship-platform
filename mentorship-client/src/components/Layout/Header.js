@@ -39,33 +39,25 @@ class Header extends Component {
 
     const defaultUser = (
       <div className='collapse navbar-collapse' id='mobile-nav'>
-        <ul className='navbar-nav'>
-          <li className='nav-item'>
-            <Link className='nav-link active' to='/'>
-              Jobs
+        <ul className='navbar-nav ml-auto'>
+          <li className='nav-item active'>
+            <Link className='nav-link' to='/dashboard'>
+              Dashboard
             </Link>
           </li>
           <li className='nav-item active'>
-            <Link className='nav-link' to={`/${user.sub}/applications`}>
-              My Applications
-            </Link>
-          </li>
-        </ul>
-
-        <ul className='navbar-nav ml-auto'>
-          <li className='nav-item'>
-            <Link className='nav-link'>
-              <i className='fas fa-user-circle mr-1' />
-              {user.sub}
+            <Link className='nav-link' to='/apply'>
+              Become a Mentor
             </Link>
           </li>
           <li className='nav-item'>
             <Link className='nav-link' to='/logout' onClick={this.logout}>
-              <i class='fas fa-camera'></i>
               Logout
             </Link>
           </li>
         </ul>
+
+        <ul className='navbar-nav ml-auto'></ul>
       </div>
     );
 
