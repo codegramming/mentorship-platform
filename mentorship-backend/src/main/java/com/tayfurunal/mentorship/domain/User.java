@@ -1,5 +1,7 @@
 package com.tayfurunal.mentorship.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,13 +39,17 @@ public class User implements UserDetails {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    private String displayName;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "mentor_user",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "mentor_id")})
@@ -58,33 +64,39 @@ public class User implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(String email, String username, String password) {
+    public User(String email, String username, String displayName, String password) {
         this.email = email;
         this.username = username;
+        this.displayName = displayName;
         this.password = password;
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
