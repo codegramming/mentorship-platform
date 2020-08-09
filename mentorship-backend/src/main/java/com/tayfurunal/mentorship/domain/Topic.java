@@ -26,5 +26,5 @@ public class Topic {
     private String title;
 
     @ElementCollection
-    private Set<String> subs;
+    private Set<String> subTitle;
 }
