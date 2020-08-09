@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class TopicServiceImpl implements TopicService {
 
@@ -32,11 +34,31 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public ResponseEntity<Topic> getById(Long id) {
-        return null;
+        Topic topic = topicRepository.getById(id);
+        return new ResponseEntity<Topic>(topic, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<ApiResponse> addSubTopic(Long id, String sub) {
-        return null;
+    public ResponseEntity<ApiResponse> addSubTopic(Long id, String subTitle) {
+        Topic topic1 = topicRepository.getById(id);
+        Set<String> sub = topic1.getSubTitle();
+        sub.add(subTitle);
+        topic1.setSubTitle(sub);
+        topicRepository.save(topic1);
+
+        ApiResponse response = new ApiResponse(true, "Sub Topic has been added");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> removeSubTopic(Long id, String subTitle) {
+        Topic topic1 = topicRepository.getById(id);
+        Set<String> sub = topic1.getSubTitle();
+        sub.remove(subTitle);
+        topic1.setSubTitle(sub);
+        topicRepository.save(topic1);
+
+        ApiResponse response = new ApiResponse(true, "Sub Topic has been added");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

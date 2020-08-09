@@ -12,4 +12,6 @@ public interface TopicService {
     ResponseEntity<Topic> getById(Long id);
 
     ResponseEntity<ApiResponse> addSubTopic(Long id, String sub);
+
+    ResponseEntity<ApiResponse> removeSubTopic(Long id, String sub);
 }
