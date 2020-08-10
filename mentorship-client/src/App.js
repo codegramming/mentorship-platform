@@ -9,6 +9,8 @@ import SecureRoute from './security/SecureRoutes';
 import Login from './components/Authentication/Login';
 import AdminPanel from './components/AdminPanel';
 import Dashboard from './components/Dashboard';
+import MentorDetails from './components/MentorDetails';
+import Application from './components/Application';
 import Header from './components/Layout/Header';
 
 import { SET_CURRENT_USER } from './actions/types';
@@ -53,6 +55,16 @@ function App() {
               exact
               path='/dashboard'
               component={(props) => <Dashboard {...props} />}
+            />
+            <Route
+              exact
+              path='/mentorDetails/:id'
+              component={(props) => <MentorDetails {...props} />}
+            />
+            <Route
+              exact
+              path='/apply'
+              component={(props) => <Application {...props} />}
             />
           </Switch>
 
