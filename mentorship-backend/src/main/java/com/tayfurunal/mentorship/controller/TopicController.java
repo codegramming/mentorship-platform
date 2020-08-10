@@ -49,4 +49,9 @@ public class TopicController {
     ResponseEntity<?> getTopicById(@PathVariable(value = "id", required = true) Long id) {
         return topicService.getById(id);
     }
+
+    @GetMapping
+    ResponseEntity<?> getAllTopic() {
+        return topicService.getAll();
+    }
 }
