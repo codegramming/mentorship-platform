@@ -23,13 +23,11 @@ import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
 @Table(name = "users")
 @EqualsAndHashCode(of = {"id"})
-@ToString
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
@@ -99,6 +97,16 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
 
