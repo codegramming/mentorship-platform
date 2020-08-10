@@ -42,17 +42,17 @@ class Header extends Component {
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item active'>
             <Link className='nav-link' to='/dashboard'>
-              Dashboard
+              <i class='fas fa-home'></i> Dashboard
             </Link>
           </li>
           <li className='nav-item active'>
             <Link className='nav-link' to='/apply'>
-              Become a Mentor
+              <i class='fas fa-user-edit'></i> Become a Mentor
             </Link>
           </li>
           <li className='nav-item'>
             <Link className='nav-link' to='/logout' onClick={this.logout}>
-              Logout
+              <i class='fas fa-sign-out-alt'></i>Logout
             </Link>
           </li>
         </ul>
@@ -75,7 +75,12 @@ class Header extends Component {
     return (
       <nav className='navbar navbar-expand-sm navbar-light bg-light mb-1'>
         <Link className='navbar-brand' to='/' style={{ marginLeft: '10%' }}>
-          Mentorship
+          <img
+            width='200px'
+            height='60px'
+            src='https://svgur.com/i/Nar.svg'
+            alt=''
+          />
         </Link>
 
         <button
