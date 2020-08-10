@@ -1,5 +1,7 @@
 package com.tayfurunal.mentorship.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,11 +11,14 @@ public class MentorDto {
     private Long id;
 
     @ApiModelProperty(required = true)
+    @NotBlank
     private String mainTopic;
 
     @ApiModelProperty(required = true)
+    @NotBlank
     private String subTopics;
 
     @ApiModelProperty(required = true)
+    @NotBlank
     private String thoughts;
 }
