@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -36,6 +37,12 @@ public class TopicServiceImpl implements TopicService {
     public ResponseEntity<Topic> getById(Long id) {
         Topic topic = topicRepository.getById(id);
         return new ResponseEntity<Topic>(topic, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAll() {
+        List<Topic> topics = topicRepository.findAll();
+        return new ResponseEntity<>(topics, HttpStatus.OK);
     }
 
     @Override
