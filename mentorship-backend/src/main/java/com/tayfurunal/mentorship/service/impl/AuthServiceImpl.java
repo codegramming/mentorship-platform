@@ -8,6 +8,7 @@ import com.tayfurunal.mentorship.payload.LoginRequest;
 import com.tayfurunal.mentorship.payload.LoginResponse;
 import com.tayfurunal.mentorship.payload.SignUpRequest;
 import com.tayfurunal.mentorship.repository.UserRepository;
+import com.tayfurunal.mentorship.security.AuthProvider;
 import com.tayfurunal.mentorship.security.TokenProvider;
 import com.tayfurunal.mentorship.service.AuthService;
 
@@ -53,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = new User(signUpRequest.getEmail(), signUpRequest.getUsername(),
                 signUpRequest.getDisplayName(), signUpRequest.getPassword());
+        user.setProvider(AuthProvider.LOCAL);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         ApiResponse response = new ApiResponse(true, "User registered successfully");
