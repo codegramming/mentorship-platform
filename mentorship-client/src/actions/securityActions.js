@@ -9,7 +9,7 @@ export const login = (LoginRequest) => async (dispatch) => {
     let { accessToken, loginResponse } = res.data;
     accessToken = 'Bearer ' + accessToken;
     localStorage.setItem('roles', loginResponse.authorities[0]);
-    localStorage.setItem('jwtToken', accessToken);
+    localStorage.setItem('accessToken', accessToken);
     SetToken(accessToken);
     const decoded = jwt_decode(accessToken);
     dispatch({
@@ -26,7 +26,7 @@ export const login = (LoginRequest) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('jwtToken');
+  localStorage.removeItem('accessToken');
   localStorage.removeItem('roles');
   SetToken(false);
   dispatch({
