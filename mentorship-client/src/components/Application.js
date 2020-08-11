@@ -149,6 +149,9 @@ class Application extends Component {
                 )}
 
                 <form onSubmit={this.onSubmit}>
+                  <label class='required-field' for='email'>
+                    Main Skill
+                  </label>
                   <select
                     id='il'
                     onChange={this.handleTopicChange}
@@ -171,7 +174,9 @@ class Application extends Component {
                       {errors.mainTopic}dafdfasd
                     </div>
                   )}
-
+                  <label class='required-field' for='email'>
+                    Side Skills
+                  </label>
                   <Multiselect
                     placeholder='Please Select Your Side Skills'
                     style={{
@@ -189,6 +194,9 @@ class Application extends Component {
                   />
 
                   <div className='form-group mt-3'>
+                    <label class='required-field' for='email'>
+                      Thoughts
+                    </label>
                     <textarea
                       className={
                         errors.thoughts
