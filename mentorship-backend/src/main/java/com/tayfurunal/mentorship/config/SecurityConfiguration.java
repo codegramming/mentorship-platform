@@ -3,6 +3,10 @@ package com.tayfurunal.mentorship.config;
 import com.tayfurunal.mentorship.security.CustomUserDetailsService;
 import com.tayfurunal.mentorship.security.TokenAuthenticationEntryPoint;
 import com.tayfurunal.mentorship.security.TokenAuthenticationFilter;
+import com.tayfurunal.mentorship.security.oauth2.CustomOAuth2UserService;
+import com.tayfurunal.mentorship.security.oauth2.OAuth2AuthenticationFailureHandler;
+import com.tayfurunal.mentorship.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.tayfurunal.mentorship.security.oauth2.OAuth2AuthorizationRequestRepository;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +28,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private CustomOAuth2UserService customOAuth2UserService;
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private OAuth2AuthorizationRequestRepository oAuth2AuthorizationRequestRepository;
 
-    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService,
+                                 CustomOAuth2UserService customOAuth2UserService,
+                                 OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
+                                 OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler,
+                                 OAuth2AuthorizationRequestRepository oAuth2AuthorizationRequestRepository) {
         this.customUserDetailsService = customUserDetailsService;
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
+        this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
+        this.oAuth2AuthorizationRequestRepository = oAuth2AuthorizationRequestRepository;
     }
 
     @Bean
@@ -89,10 +105,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/csrf")
                 .permitAll()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/auth/**", "/api/oauth2/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/api/oauth2/authorize")
+                .authorizationRequestRepository(oAuth2AuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/api/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
