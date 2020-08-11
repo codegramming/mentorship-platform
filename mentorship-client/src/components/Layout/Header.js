@@ -18,12 +18,12 @@ class Header extends Component {
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item active'>
             <Link className='nav-link' to='/adminPanel'>
-              Manager Panel
+              Review Application
             </Link>
           </li>
           <li className='nav-item active'>
-            <Link className='nav-link' to='/applications'>
-              Applications
+            <Link className='nav-link' to='/editTopic'>
+              Edit Topic
             </Link>
           </li>
           <li className='nav-item'>
@@ -43,6 +43,11 @@ class Header extends Component {
           <li className='nav-item active'>
             <Link className='nav-link' to='/dashboard'>
               <i class='fas fa-home'></i> Dashboard
+            </Link>
+          </li>
+          <li className='nav-item active'>
+            <Link className='nav-link' to='/search'>
+              <i class='fas fa-user-edit'></i> Search Mentor
             </Link>
           </li>
           <li className='nav-item active'>
