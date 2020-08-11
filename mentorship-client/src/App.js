@@ -12,28 +12,29 @@ import Dashboard from './components/Dashboard';
 import MentorDetails from './components/MentorDetails';
 import Application from './components/Application';
 import Header from './components/Layout/Header';
-
+import OAuth2RedirectHandler from './security/OAuth2RedirectHandler';
 import { SET_CURRENT_USER } from './actions/types';
 import { logout } from './actions/securityActions';
+import SearchMentor from './components/SearchMentor';
 
 //import './App.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
-const jwtToken = localStorage.jwtToken;
+const accessToken = localStorage.accessToken;
 const roles = [];
 roles[0] = localStorage.roles;
-if (jwtToken) {
-  SetToken(jwtToken);
-  const decoded_jwtToken = jwt_decode(jwtToken);
+if (accessToken) {
+  SetToken(accessToken);
+  const decoded_accessToken = jwt_decode(accessToken);
   store.dispatch({
     type: SET_CURRENT_USER,
-    payload: decoded_jwtToken,
+    payload: decoded_accessToken,
     roles: roles,
   });
 
   const currentTime = Date.now() / 1000;
 
-  if (decoded_jwtToken.exp < currentTime) {
+  if (decoded_accessToken.exp < currentTime) {
     store.dispatch(logout());
     window.location.href = '/';
   }
@@ -65,6 +66,16 @@ function App() {
               exact
               path='/apply'
               component={(props) => <Application {...props} />}
+            />
+            <Route
+              exact
+              path='/search'
+              component={(props) => <SearchMentor {...props} />}
+            />
+            <Route
+              exact
+              path='/oauth2/redirect'
+              component={(props) => <OAuth2RedirectHandler {...props} />}
             />
           </Switch>
 
