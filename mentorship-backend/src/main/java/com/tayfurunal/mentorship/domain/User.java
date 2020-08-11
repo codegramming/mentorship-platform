@@ -1,16 +1,21 @@
 package com.tayfurunal.mentorship.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tayfurunal.mentorship.security.AuthProvider;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User implements OAuth2User, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,6 +50,13 @@ public class User implements UserDetails {
     @Column(name = "password")
     @JsonIgnore
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provider", nullable = false)
+    private AuthProvider provider;
+
+    @Column(name = "provider_id")
+    private String providerId;
 
     @ManyToMany
     @JsonIgnore
@@ -62,11 +74,19 @@ public class User implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
+    @Transient
+    private Map<String, Object> attributes;
+
     public User(String email, String username, String displayName, String password) {
         this.email = email;
         this.username = username;
         this.displayName = displayName;
         this.password = password;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     @Override
@@ -107,6 +127,11 @@ public class User implements UserDetails {
                 ", displayName='" + displayName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public String getName() {
+        return String.valueOf(id);
     }
 }
 
