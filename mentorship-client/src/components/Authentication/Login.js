@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../../actions/securityActions';
-import createHistory from 'history/createBrowserHistory';
-const history = createHistory();
+import { GOOGLE_AUTH_URL } from '../../security/Oauth2Constants';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 class Login2 extends Component {
   constructor() {
@@ -63,7 +64,7 @@ class Login2 extends Component {
           <div class='col-lg-7 d-none d-lg-flex justify-content-center align-items-center gradient-brand-color'>
             <div class='w-66'>
               <h2 class='color--white mb-5'>
-                We helps your business grow without compromise.
+                We help bring students and teachers together.
               </h2>
               <img
                 class='ml-4 mb-n4'
@@ -78,10 +79,7 @@ class Login2 extends Component {
             <div class='w-75 mx-auto overflow-hidden px-md-5 px-lg-3'>
               <header class='mb-4'>
                 <a class='cover-page-brand' href='index.html'>
-                  <img
-                    src='https://weboth.us/preview/fluxo-v1.0.0/html/images/logo.svg'
-                    alt='Fluxo'
-                  />
+                  <img src='https://svgur.com/i/Nar.svg' alt='Mentorship' />
                 </a>
               </header>
 
@@ -167,7 +165,7 @@ class Login2 extends Component {
                     <div className='col-sm-3'></div>
                     <div class='col-sm-6 mb-2'>
                       <a
-                        href='#0'
+                        href={GOOGLE_AUTH_URL}
                         class='btn background--white border w-100 px-2'
                       >
                         <figure class='d-inline-block mr-1 mb-0'>
