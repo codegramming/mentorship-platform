@@ -52,13 +52,13 @@ public class MentorController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAllApplicationByProgress() {
-        return mentorService.getAllByProgress();
+    public ResponseEntity<?> getAllApplicationByInProgress() {
+        return mentorService.getAllByInProgress();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getApplicationByProgress(@PathVariable(value = "id", required = true) Long id) {
-        return mentorService.getByIdAndProgress(id);
+    public ResponseEntity<?> getApplicationByInProgress(@PathVariable(value = "id", required = true) Long id) {
+        return mentorService.getByIdAndInProgress(id);
     }
 
     @PutMapping("/changeStatus/{id}")
@@ -66,6 +66,18 @@ public class MentorController {
     public ResponseEntity<?> changeApplyStatus(@Valid @RequestBody ApplyStatusRequest status,
                                                @PathVariable(value = "id", required = true) Long id) {
         return mentorService.changeApplyStatus(status, id);
+    }
+
+    @GetMapping("/accepted")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllApplicationByAccepted() {
+        return mentorService.getAllByAccepted();
+    }
+
+    @GetMapping("/accepted/{main}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllApplicationByAcceptedWithMain(@PathVariable(value = "main", required = true) String main) {
+        return mentorService.getAllByAcceptedWithMain(main);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

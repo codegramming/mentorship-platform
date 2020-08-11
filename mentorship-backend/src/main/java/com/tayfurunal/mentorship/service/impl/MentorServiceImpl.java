@@ -37,18 +37,6 @@ public class MentorServiceImpl implements MentorService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<?> getAllByProgress() {
-        List<Mentor> mentors = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.IN_PROGRESS);
-        return new ResponseEntity<>(mentors, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Mentor> getByIdAndProgress(Long id) {
-        Mentor mentor = mentorRepository.findByIdAndStatusEquals(id, Mentor.progressStatus.IN_PROGRESS);
-        return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
-    }
-
     public ResponseEntity<?> changeApplyStatus(ApplyStatusRequest status, Long id) {
         Mentor mentor = mentorRepository.findByIdAndStatusEquals(id, Mentor.progressStatus.IN_PROGRESS);
         Mentor.progressStatus newStatus = null;
@@ -66,4 +54,28 @@ public class MentorServiceImpl implements MentorService {
         return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<?> getAllByInProgress() {
+        List<Mentor> mentors = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.IN_PROGRESS);
+        return new ResponseEntity<>(mentors, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Mentor> getByIdAndInProgress(Long id) {
+        Mentor mentor = mentorRepository.findByIdAndStatusEquals(id, Mentor.progressStatus.IN_PROGRESS);
+        return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllByAccepted() {
+        List<Mentor> mentors = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.ACCEPTED);
+        return new ResponseEntity<>(mentors, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllByAcceptedWithMain(String main) {
+        List<Mentor> mentors =
+                mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
+        return new ResponseEntity<>(mentors, HttpStatus.OK);
+    }
 }

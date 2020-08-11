@@ -3,10 +3,9 @@ package com.tayfurunal.mentorship.mapper;
 import com.tayfurunal.mentorship.domain.Topic;
 import com.tayfurunal.mentorship.dto.TopicDto;
 
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+//@Mapper
 public interface TopicMapper {
 
     TopicMapper INSTANCE = Mappers.getMapper(TopicMapper.class);

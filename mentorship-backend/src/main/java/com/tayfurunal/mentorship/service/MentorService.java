@@ -10,9 +10,13 @@ public interface MentorService {
 
     ResponseEntity<ApiResponse> applyMentorship(Mentor mentor, String username);
 
-    ResponseEntity<?> getAllByProgress();
-
-    ResponseEntity<Mentor> getByIdAndProgress(Long id);
-
     ResponseEntity<?> changeApplyStatus(ApplyStatusRequest status, Long id);
+
+    ResponseEntity<?> getAllByInProgress();
+
+    ResponseEntity<Mentor> getByIdAndInProgress(Long id);
+
+    ResponseEntity<?> getAllByAccepted();
+
+    ResponseEntity<?> getAllByAcceptedWithMain(String main);
 }
