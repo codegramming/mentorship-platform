@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12.3-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_DB: mentorship
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pg-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - backend
+
+  orb-server:
+    build:
+      context: mentorship-backend
+    container_name: orb-server
+    environment:
+      POSTGRES_HOST: db
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - backend
+      - frontend
+
+  orb-client:
+    build:
+      context: mentorship-client
+      args:
+        REACT_APP_API_BASE_URL: http://127.0.0.1:8080
+    container_name: orb-client
+    ports:
+      - 3000:80
+    restart: always
+    depends_on:
+      - orb-server
+    networks:
+      - frontend
+
+volumes:
+  pg-data:
+
+networks:
+  backend:
+  frontend:
