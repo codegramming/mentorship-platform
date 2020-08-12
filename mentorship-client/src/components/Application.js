@@ -35,7 +35,7 @@ class Application extends Component {
     ) {
       this.props.history.push('/adminPanel');
     }
-    axios.get(`api/topics`).then((res) => {
+    axios.get(`http://localhost:8080/api/topics`).then((res) => {
       let mainTopics = [];
       for (let i = 0; i < res.data.length; i++) {
         mainTopics.push(res.data[i].title);
@@ -107,7 +107,7 @@ class Application extends Component {
     console.log(newApplication);
 
     await axios
-      .post('/api/mentors/apply', newApplication)
+      .post('http://localhost:8080/api/mentors/apply', newApplication)
       .then(() => {
         this.setState({ submit: true });
         setTimeout(

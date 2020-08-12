@@ -5,7 +5,10 @@ import SetToken from '../security/SetToken';
 
 export const login = (LoginRequest) => async (dispatch) => {
   try {
-    const res = await axios.post('/api/auth/login', LoginRequest);
+    const res = await axios.post(
+      'http://localhost:8080/api/auth/login',
+      LoginRequest
+    );
     let { accessToken, loginResponse } = res.data;
     accessToken = 'Bearer ' + accessToken;
     localStorage.setItem('roles', loginResponse.authorities[0]);

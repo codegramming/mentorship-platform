@@ -22,7 +22,7 @@ class AdminPanel extends Component {
   }
 
   getApplications = async () => {
-    let applications = await axios.get(`/api/mentors`);
+    let applications = await axios.get(`http://localhost:8080/api/mentors`);
     this.setState({
       applications: applications.data,
     });

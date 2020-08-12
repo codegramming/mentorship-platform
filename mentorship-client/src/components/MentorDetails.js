@@ -20,7 +20,9 @@ class MentorDetails extends Component {
   }
 
   getApplication = async (id) => {
-    let application = await axios.get(`/api/mentors/${id}`);
+    let application = await axios.get(
+      `http://localhost:8080/api/mentors/${id}`
+    );
     this.setState({
       mainTopic: application.data.mainTopic,
       subTopics: application.data.subTopics,
@@ -36,7 +38,10 @@ class MentorDetails extends Component {
     const status = {
       status: 'ACCEPTED',
     };
-    await axios.put(`/api/mentors/changeStatus/${id}`, status);
+    await axios.put(
+      `http://localhost:8080/api/mentors/changeStatus/${id}`,
+      status
+    );
     this.props.history.push('/');
   };
 
@@ -45,7 +50,10 @@ class MentorDetails extends Component {
     const status = {
       status: 'NOT_ACCEPTED',
     };
-    await axios.put(`/api/mentors/changeStatus/${id}`, status);
+    await axios.put(
+      `http://localhost:8080/api/mentors/changeStatus/${id}`,
+      status
+    );
     this.props.history.push('/');
   };
 
