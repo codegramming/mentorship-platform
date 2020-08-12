@@ -47,7 +47,7 @@ class Header extends Component {
           </li>
           <li className='nav-item active'>
             <Link className='nav-link' to='/search'>
-              <i class='fas fa-user-edit'></i> Search Mentor
+              <i class='fas fa-search'></i> Search Mentor
             </Link>
           </li>
           <li className='nav-item active'>
