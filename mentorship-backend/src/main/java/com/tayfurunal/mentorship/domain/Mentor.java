@@ -1,5 +1,9 @@
 package com.tayfurunal.mentorship.domain;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,16 +21,21 @@ import lombok.Data;
 
 @Entity
 @Data
+@Document(indexName = "mentor")
 public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field(type = FieldType.Long)
     private Long id;
 
+    @Field(type = FieldType.Text)
     private String mainTopic;
 
+    @Field(type = FieldType.Text)
     private String subTopics;
 
-    private String thoughts;
+    @Field(type = FieldType.Text)
+    private String thoughtsText;
 
     @Enumerated(EnumType.STRING)
     private progressStatus status = progressStatus.IN_PROGRESS;
