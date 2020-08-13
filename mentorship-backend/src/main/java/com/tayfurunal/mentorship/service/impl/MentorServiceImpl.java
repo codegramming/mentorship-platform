@@ -5,8 +5,9 @@ import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.payload.ApiError;
 import com.tayfurunal.mentorship.payload.ApiResponse;
 import com.tayfurunal.mentorship.payload.ApplyStatusRequest;
-import com.tayfurunal.mentorship.repository.MentorRepository;
-import com.tayfurunal.mentorship.repository.UserRepository;
+import com.tayfurunal.mentorship.repository.elasticsearch.MentorSearchRepository;
+import com.tayfurunal.mentorship.repository.jpa.MentorRepository;
+import com.tayfurunal.mentorship.repository.jpa.UserRepository;
 import com.tayfurunal.mentorship.service.MentorService;
 
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,13 @@ public class MentorServiceImpl implements MentorService {
 
     private UserRepository userRepository;
     private MentorRepository mentorRepository;
+    private MentorSearchRepository mentorSearchRepository;
 
-    public MentorServiceImpl(UserRepository userRepository, MentorRepository mentorRepository) {
+    public MentorServiceImpl(UserRepository userRepository, MentorRepository mentorRepository,
+                             MentorSearchRepository mentorSearchRepository) {
         this.userRepository = userRepository;
         this.mentorRepository = mentorRepository;
+        this.mentorSearchRepository = mentorSearchRepository;
     }
 
     @Override
@@ -50,6 +54,7 @@ public class MentorServiceImpl implements MentorService {
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
         mentor.setStatus(newStatus);
+        mentorSearchRepository.save(mentor);
         mentorRepository.save(mentor);
         return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
     }
@@ -72,10 +77,14 @@ public class MentorServiceImpl implements MentorService {
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<?> getAllByAcceptedWithMain(String main) {
-        List<Mentor> mentors =
-                mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
+    public ResponseEntity<?> getAllByAcceptedWithSearch(String main, String subs, String thoughts) {
+        List<Mentor> mentors;
+        if (main != null) {
+            mentors = mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
+        } else {
+            mentors = subs != null ? mentorSearchRepository.findBySubTopics(subs) :
+                    mentorSearchRepository.findByThoughtsText(thoughts);
+        }
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
 }

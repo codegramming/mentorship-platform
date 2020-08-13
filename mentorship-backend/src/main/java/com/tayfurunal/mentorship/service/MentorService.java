@@ -18,5 +18,5 @@ public interface MentorService {
 
     ResponseEntity<?> getAllByAccepted();
 
-    ResponseEntity<?> getAllByAcceptedWithMain(String main);
+    ResponseEntity<?> getAllByAcceptedWithSearch(String main, String subs, String thoughts);
 }
