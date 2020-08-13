@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -74,11 +75,14 @@ public class MentorController {
         return mentorService.getAllByAccepted();
     }
 
-    @GetMapping("/accepted/{main}")
+    @GetMapping("/search")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAllApplicationByAcceptedWithMain(@PathVariable(value = "main", required = true) String main) {
-        return mentorService.getAllByAcceptedWithMain(main);
+    public ResponseEntity<?> getAllApplicationByAcceptedWithSearch(@RequestParam(value = "main", required = false) String main,
+                                                                   @RequestParam(value = "subs", required = false) String subs,
+                                                                   @RequestParam(value = "thoughts", required = false) String thoughts) {
+        return mentorService.getAllByAcceptedWithSearch(main, subs, thoughts);
     }
+
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
