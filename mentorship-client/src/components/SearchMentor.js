@@ -15,6 +15,7 @@ class SearchMentor extends Component {
       topics: [],
       mainTopics: [],
       subTopics: [],
+      searchText: '',
     };
 
     this.multiselectRef = React.createRef();
@@ -29,15 +30,28 @@ class SearchMentor extends Component {
     }
   }
 
+  onSearchChange = (e) => {
+    this.setState({ searchText: e.target.value });
+  };
+
+  onSearchSubmit = async (e) => {
+    e.preventDefault();
+    let searchText = this.state.searchText;
+    let mentors = await axios.get(
+      `http://localhost:8080/api/mentors/search?thoughts=${searchText}`
+    );
+    this.setState({ mentors: mentors.data });
+  };
+
   getMentors = async () => {
-    let mentors = await axios.get(`/api/mentors/accepted`);
+    let mentors = await axios.get(`http://localhost:8080/api/mentors/accepted`);
     this.setState({
       mentors: mentors.data,
     });
   };
 
   getTopics = async () => {
-    axios.get(`/api/topics`).then((res) => {
+    axios.get(`http://localhost:8080/api/topics`).then((res) => {
       let mainTopics = [];
       for (let i = 0; i < res.data.length; i++) {
         mainTopics.push(res.data[i].title);
@@ -70,9 +84,12 @@ class SearchMentor extends Component {
       optionsArray.push(element);
     }
     this.setState({ options: optionsArray });
+    this.getMain(userMainTopic);
+  };
 
+  getMain = async (userMainTopic) => {
     let mentorsWithMain = await axios.get(
-      `/api/mentors/accepted/${userMainTopic}`
+      `http://localhost:8080/api/mentors/search?main=${userMainTopic}`
     );
     this.setState({ mentors: mentorsWithMain.data });
   };
@@ -85,11 +102,30 @@ class SearchMentor extends Component {
   onSelect = (selectedList, selectedItem) => {
     let selected = this.state.userSubTopics;
     selected += `${selectedItem.name},`;
-    this.setState({ userSubTopics: selected, errors: {} });
+    this.setState({ userSubTopics: selected, errors: {} }, () => {
+      this.getSubs(this.state.userSubTopics);
+    });
   };
 
   onRemove = (selectedList, selectedItem) => {
-    this.setState({ userSubTopics: selectedList });
+    let myList = '';
+    for (let i = 0; i < selectedList.length; i++) {
+      myList += `${selectedList[i].name},`;
+    }
+    this.setState({ userSubTopics: myList }, () => {
+      if (!this.state.userSubTopics.length == 0) {
+        this.getSubs(this.state.userSubTopics);
+      } else {
+        this.getMain(this.state.userMainTopic);
+      }
+    });
+  };
+
+  getSubs = async (subs) => {
+    let mentorsWithMain = await axios.get(
+      `http://localhost:8080/api/mentors/search?subs=${subs}`
+    );
+    this.setState({ mentors: mentorsWithMain.data });
   };
 
   render() {
@@ -107,9 +143,8 @@ class SearchMentor extends Component {
                     <div class='col-md-6 mb-3'>
                       <div class='form-group'>
                         <label for='jobPosition'>Main Skill :</label>
-                        <span class='multiselect-native-select'>
+                        <span>
                           <select
-                            id='il'
                             onChange={this.handleTopicChange}
                             className='custom-select mb-3'
                           >
@@ -131,9 +166,7 @@ class SearchMentor extends Component {
                     <div class='col-md-6 mb-3'>
                       <div class='form-group'>
                         <span class='multiselect-native-select'>
-                          <label class='required-field' for='email'>
-                            Side Skills
-                          </label>
+                          <label>Side Skills</label>
                           <Multiselect
                             placeholder='Please Select Your Side Skills'
                             style={{
@@ -144,12 +177,34 @@ class SearchMentor extends Component {
                             disable={this.state.pending}
                             options={this.state.options} // Options to display in the dropdown
                             displayValue='name' // Property name to display in the dropdown options
-                            selectedValue={this.state.selectedValue}
                             onSelect={this.onSelect}
                             onRemove={this.onRemove}
                             ref={this.multiselectRef}
                           />
                         </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-md-6'>
+                      <div className='form-group'>
+                        <input
+                          class='form-control'
+                          type='search'
+                          placeholder='Search'
+                          aria-label='Search'
+                          onChange={this.onSearchChange}
+                        />
+                      </div>
+                    </div>
+                    <div className='col-md-0'>
+                      <div className='form-group'>
+                        <button
+                          class='btn btn-success'
+                          onClick={this.onSearchSubmit}
+                        >
+                          <i class='fas fa-search'></i>
+                        </button>
                       </div>
                     </div>
                   </div>
