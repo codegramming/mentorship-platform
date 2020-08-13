@@ -1,4 +1,4 @@
-package com.tayfurunal.mentorship.repository;
+package com.tayfurunal.mentorship.repository.jpa;
 
 import com.tayfurunal.mentorship.domain.User;
 
