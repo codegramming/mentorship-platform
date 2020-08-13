@@ -12,5 +12,7 @@ public interface MentorRepository extends JpaRepository<Mentor, Long> {
 
     List<Mentor> findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus status, String mainTopic);
 
+    List<Mentor> findAllByStatusEqualsAndSubTopicsContaining(Mentor.progressStatus status, String subTopics);
+
     Mentor findByIdAndStatusEquals(Long id, Mentor.progressStatus status);
 }
