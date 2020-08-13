@@ -7,7 +7,7 @@ import com.tayfurunal.mentorship.payload.AuthResponse;
 import com.tayfurunal.mentorship.payload.LoginRequest;
 import com.tayfurunal.mentorship.payload.LoginResponse;
 import com.tayfurunal.mentorship.payload.SignUpRequest;
-import com.tayfurunal.mentorship.repository.UserRepository;
+import com.tayfurunal.mentorship.repository.jpa.UserRepository;
 import com.tayfurunal.mentorship.security.AuthProvider;
 import com.tayfurunal.mentorship.security.TokenProvider;
 import com.tayfurunal.mentorship.service.AuthService;

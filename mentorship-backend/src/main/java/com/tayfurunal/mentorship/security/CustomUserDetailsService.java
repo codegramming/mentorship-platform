@@ -2,7 +2,7 @@ package com.tayfurunal.mentorship.security;
 
 import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.exception.ResourceNotFoundException;
-import com.tayfurunal.mentorship.repository.UserRepository;
+import com.tayfurunal.mentorship.repository.jpa.UserRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

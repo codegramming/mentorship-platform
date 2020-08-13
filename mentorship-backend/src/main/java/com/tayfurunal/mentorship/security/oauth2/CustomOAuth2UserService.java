@@ -2,7 +2,7 @@ package com.tayfurunal.mentorship.security.oauth2;
 
 import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.exception.OAuth2AuthenticationProcessingException;
-import com.tayfurunal.mentorship.repository.UserRepository;
+import com.tayfurunal.mentorship.repository.jpa.UserRepository;
 import com.tayfurunal.mentorship.security.AuthProvider;
 import com.tayfurunal.mentorship.security.Role;
 import com.tayfurunal.mentorship.security.oauth2.user.OAuth2UserInfo;
