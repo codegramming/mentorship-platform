@@ -1,5 +1,8 @@
 package com.tayfurunal.mentorship.mapper;
 
+import com.tayfurunal.mentorship.domain.Mentorship;
+import com.tayfurunal.mentorship.dto.MentorshipDto;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
