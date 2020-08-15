@@ -14,7 +14,7 @@ public interface MentorService {
 
     ResponseEntity<?> getAllByInProgress();
 
-    ResponseEntity<Mentor> getByIdAndInProgress(Long id);
+    ResponseEntity<Mentor> getByIdAndProgressStatus(Long id, Mentor.progressStatus progressStatus);
 
     ResponseEntity<?> getAllByAccepted();
 
