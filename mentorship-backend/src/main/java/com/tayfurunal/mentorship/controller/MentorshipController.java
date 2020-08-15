@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,11 @@ public class MentorshipController {
     @PostMapping
     public ResponseEntity<?> createMentorship(@Valid @RequestBody MentorshipDto mentorshipDto, Principal principal) {
         return mentorshipService.createMentorship(mentorshipDto, principal.getName());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMentorshipById(@PathVariable(value = "id", required = true) Long id) {
+        return mentorshipService.getMentorshipDetailsById(id);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

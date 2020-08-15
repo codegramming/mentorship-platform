@@ -5,6 +5,7 @@ import com.tayfurunal.mentorship.domain.Mentor;
 import com.tayfurunal.mentorship.domain.Mentorship;
 import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.dto.MentorshipDto;
+import com.tayfurunal.mentorship.payload.MentorshipDetailsResponse;
 import com.tayfurunal.mentorship.repository.jpa.MenteeRepository;
 import com.tayfurunal.mentorship.repository.jpa.MentorRepository;
 import com.tayfurunal.mentorship.repository.jpa.MentorshipRepository;
@@ -38,11 +39,14 @@ public class MentorshipServiceImpl implements MentorshipService {
         Mentor mentor = mentorRepository.getById(mentorshipDto.getMentorId());
         Mentee mentee = new Mentee();
         mentee.setMentor(mentor);
+        mentee.setUser(user);
         user.setMentees(Collections.singleton(mentee));
 
         Mentorship mentorship = new Mentorship();
         mentorship.setMentee(mentee);
         mentorship.setMentor(mentor);
+        mentorship.setCurrentPhase(0);
+        mentorship.setStatus(Mentorship.status.NOT_STARTED);
 
         menteeRepository.save(mentee);
         mentorshipRepository.save(mentorship);
@@ -51,6 +55,13 @@ public class MentorshipServiceImpl implements MentorshipService {
 
     @Override
     public ResponseEntity<?> getMentorshipDetailsById(Long id) {
-        return null;
+        Mentorship mentorship = mentorshipRepository.getById(id);
+        String mentorDisplayName = mentorship.getMentor().getUser().getDisplayName();
+        String menteeDisplayName = mentorship.getMentee().getUser().getDisplayName();
+        String status = mentorship.getStatus().toString();
+        String startDate = mentorship.getStartDate().toString();
+        MentorshipDetailsResponse mentorshipDetailsResponse = new MentorshipDetailsResponse(mentorDisplayName,
+                menteeDisplayName, status, startDate);
+        return new ResponseEntity<>(mentorshipDetailsResponse, HttpStatus.OK);
     }
 }

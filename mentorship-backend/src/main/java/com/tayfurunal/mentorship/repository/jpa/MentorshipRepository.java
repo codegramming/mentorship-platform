@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MentorshipRepository extends JpaRepository<Mentorship, Long> {
+
+    Mentorship getById(Long id);
 }
