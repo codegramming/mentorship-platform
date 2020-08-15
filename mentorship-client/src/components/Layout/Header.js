@@ -70,7 +70,6 @@ class Header extends Component {
 
     if (validToken && user) {
       if (roles[0].includes('ADMIN')) {
-        console.log(roles[0]);
         headerLinks = userIsADMIN;
       } else {
         headerLinks = defaultUser;

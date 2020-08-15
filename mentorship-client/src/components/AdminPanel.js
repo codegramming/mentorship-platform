@@ -75,7 +75,6 @@ class AdminPanel extends Component {
 
                                   <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
                                     <i class='fad fa-ellipsis-h-alt'></i>{' '}
-                                    {console.log(application.mainTopic)}
                                     {application.subTopics}
                                   </span>
 

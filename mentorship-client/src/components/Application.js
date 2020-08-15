@@ -96,7 +96,6 @@ class Application extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    console.log(this.state.userSubTopics);
     let selected = this.state.userSubTopics;
     selected = selected.substring(0, selected.length - 1);
     const newApplication = {
@@ -104,7 +103,6 @@ class Application extends Component {
       mainTopic: this.state.userMainTopic,
       subTopics: selected,
     };
-    console.log(newApplication);
 
     await axios
       .post('http://localhost:8080/api/mentors/apply', newApplication)

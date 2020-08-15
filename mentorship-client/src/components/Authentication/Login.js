@@ -19,7 +19,6 @@ class Login2 extends Component {
 
   componentDidMount() {
     if (this.props.security.validToken) {
-      console.log(this.props.security);
       if (this.props.security.roles[0].includes('ADMIN')) {
         this.props.history.push('/adminPanel');
       } else {
