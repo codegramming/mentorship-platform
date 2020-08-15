@@ -36,7 +36,6 @@ public class MentorServiceImpl implements MentorService {
         user.getMentors().add(mentor);
         mentor.setUser(user);
         mentorRepository.save(mentor);
-
         ApiResponse response = new ApiResponse(true, "Mentorship application is successfully");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -54,7 +53,6 @@ public class MentorServiceImpl implements MentorService {
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
         mentor.setStatus(newStatus);
-        mentorSearchRepository.save(mentor);
         mentorRepository.save(mentor);
         return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
     }
@@ -66,8 +64,8 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
-    public ResponseEntity<Mentor> getByIdAndInProgress(Long id) {
-        Mentor mentor = mentorRepository.findByIdAndStatusEquals(id, Mentor.progressStatus.IN_PROGRESS);
+    public ResponseEntity<Mentor> getByIdAndProgressStatus(Long id, Mentor.progressStatus progressStatus) {
+        Mentor mentor = mentorRepository.findByIdAndStatusEquals(id, progressStatus);
         return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
     }
 
@@ -82,6 +80,18 @@ public class MentorServiceImpl implements MentorService {
         if (main != null) {
             mentors = mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
         } else {
+            Iterable<Mentor> mentorList = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.ACCEPTED);
+            mentorList.forEach((mentor -> {
+                User user = new User();
+                user.setId(mentor.getUser().getId());
+                user.setEmail(mentor.getUser().getEmail());
+                user.setUsername(mentor.getUser().getUsername());
+                user.setDisplayName(mentor.getUser().getDisplayName());
+                mentor.setUser(user);
+            }
+            ));
+            mentorSearchRepository.deleteAll();
+            mentorSearchRepository.saveAll(mentorList);
             mentors = subs != null ? mentorSearchRepository.findBySubTopics(subs) :
                     mentorSearchRepository.findByThoughtsText(thoughts);
         }
