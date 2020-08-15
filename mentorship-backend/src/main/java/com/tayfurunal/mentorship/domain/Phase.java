@@ -34,8 +34,7 @@ public class Phase {
     private phaseStatus status;
 
     public static enum phaseStatus {
-        NOT_STARTED,
-        COMPLETED,
-        CONTINUING
+        ACTIVE,
+        COMPLETED
     }
 }
