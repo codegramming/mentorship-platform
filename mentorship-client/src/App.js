@@ -16,6 +16,8 @@ import OAuth2RedirectHandler from './security/OAuth2RedirectHandler';
 import { SET_CURRENT_USER } from './actions/types';
 import { logout } from './actions/securityActions';
 import SearchMentor from './components/SearchMentor';
+import SelectMentor from './components/SelectMentor';
+import MentorshipDetails from './components/MentorshipDetails';
 
 //import './App.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -61,6 +63,16 @@ function App() {
               exact
               path='/mentorDetails/:id'
               component={(props) => <MentorDetails {...props} />}
+            />
+            <Route
+              exact
+              path='/selectMentor/:id'
+              component={(props) => <SelectMentor {...props} />}
+            />
+            <Route
+              exact
+              path='/mentorshipDetails/:id'
+              component={(props) => <MentorshipDetails {...props} />}
             />
             <Route
               exact
