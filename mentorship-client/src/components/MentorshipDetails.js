@@ -10,24 +10,22 @@ class SelectMentor extends Component {
     super();
 
     this.state = {
-      mainTopic: '',
-      subTopics: '',
-      thoughts: '',
-      username: '',
-      displayName: '',
-      email: '',
+      mentorDisplayName: '',
+      menteeDisplayName: '',
+      status: '',
+      startDate: '',
     };
   }
 
-  getApplication = async (id) => {
-    let application = await axios.get(`http://localhost:8080/api/mentorship`);
+  getMentorship = async (id) => {
+    let application = await axios.get(
+      `http://localhost:8080/api/mentorships/${id}`
+    );
     this.setState({
-      mainTopic: application.data.mainTopic,
-      subTopics: application.data.subTopics,
-      thoughts: application.data.thoughts,
-      displayName: application.data.user.displayName,
-      username: application.data.user.username,
-      email: application.data.user.email,
+      mentorDisplayName: application.data.mentorDisplayName,
+      menteeDisplayName: application.data.menteeDisplayName,
+      status: application.data.status,
+      startDate: application.data.startDate,
     });
   };
 
@@ -45,7 +43,7 @@ class SelectMentor extends Component {
       this.props.history.push('/');
     } else {
       const { id } = this.props.match.params;
-      this.getApplication(id);
+      this.getMentorship(id);
     }
   }
 
@@ -66,7 +64,7 @@ class SelectMentor extends Component {
                   </small>
                 </Link>
 
-                <h1 class='mb-4'>Start Mentorship</h1>
+                <h1 class='mb-4'>Mentorship Details</h1>
 
                 <p>If you want to work with this mentor, start the process.</p>
               </div>
