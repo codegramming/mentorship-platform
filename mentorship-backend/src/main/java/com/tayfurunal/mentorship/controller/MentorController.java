@@ -58,8 +58,9 @@ public class MentorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getApplicationByInProgress(@PathVariable(value = "id", required = true) Long id) {
-        return mentorService.getByIdAndInProgress(id);
+    public ResponseEntity<?> getApplicationByInProgress(@PathVariable(value = "id", required = true) Long id,
+                                                        @RequestParam(value = "status", required = true) Mentor.progressStatus status) {
+        return mentorService.getByIdAndProgressStatus(id, status);
     }
 
     @PutMapping("/changeStatus/{id}")
