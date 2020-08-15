@@ -3,6 +3,7 @@ package com.tayfurunal.mentorship.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tayfurunal.mentorship.security.AuthProvider;
 
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -34,6 +35,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
+@Document(indexName = "user")
 public class User implements OAuth2User, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +68,7 @@ public class User implements OAuth2User, UserDetails {
     private Set<Mentor> mentors = new HashSet<Mentor>();
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "mentee_user",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "mentee_id")})
@@ -92,6 +95,16 @@ public class User implements OAuth2User, UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        /*
+        Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+
+        List<Role> roles = roleRepository.findMemberRoles(this.member.getId());
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        authorities.add(new SimpleGrantedAuthority("test"));
+       */
         return authorities;
     }
 
