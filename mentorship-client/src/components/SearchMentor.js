@@ -225,7 +225,7 @@ class SearchMentor extends Component {
                         <>
                           <div key={index}>
                             <Link
-                              to={`/mentorDetails/${application.id}`}
+                              to={`/selectMentor/${application.id}`}
                               class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                             >
                               <div class='card-body'>
@@ -245,7 +245,6 @@ class SearchMentor extends Component {
 
                                   <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
                                     <i class='fad fa-ellipsis-h-alt'></i>{' '}
-                                    {console.log(application.mainTopic)}
                                     {application.subTopics}
                                   </span>
 
