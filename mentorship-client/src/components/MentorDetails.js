@@ -21,7 +21,7 @@ class MentorDetails extends Component {
 
   getApplication = async (id) => {
     let application = await axios.get(
-      `http://localhost:8080/api/mentors/${id}`
+      `http://localhost:8080/api/mentors/${id}?status=IN_PROGRESS`
     );
     this.setState({
       mainTopic: application.data.mainTopic,
