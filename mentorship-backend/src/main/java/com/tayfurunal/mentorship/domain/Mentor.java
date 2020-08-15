@@ -1,5 +1,7 @@
 package com.tayfurunal.mentorship.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -44,6 +46,7 @@ public class Mentor {
     private User user;
 
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Mentee> mentees = new ArrayList<>();
 
     public static enum progressStatus {
