@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +27,10 @@ public class Mentorship {
 
     private String menteeThoughts;
 
+    private Integer numberOfPhases;
+
+    private Integer currentPhase;
+
     @OneToOne
     Mentor mentor;
 
@@ -36,7 +42,12 @@ public class Mentorship {
     @OneToMany(mappedBy = "mentorship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phase> phases = new ArrayList<>();
 
-    private Integer numberOfPhases;
+    @Enumerated(EnumType.STRING)
+    private Mentorship.status status;
 
-    private static Integer currentPhase = 0;
+    public static enum status {
+        NOT_STARTED,
+        COMPLETED,
+        CONTINUING
+    }
 }
