@@ -28,7 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         if (user.getUsername().equals("admin")) {
             user.setAuthorities(Collections.singleton(Role.ADMIN));
-            System.out.println("ADMIN CREATED");
         } else {
             user.setAuthorities(Collections.singleton(Role.USER));
         }
@@ -40,7 +39,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         if (user.getUsername().equals("admin")) {
             user.setAuthorities(Collections.singleton(Role.ADMIN));
-            System.out.println("ADMIN CREATED");
         } else {
             user.setAuthorities(Collections.singleton(Role.USER));
         }

@@ -14,5 +14,5 @@ public interface MentorSearchRepository extends ElasticsearchRepository<Mentor, 
 
     List<Mentor> findBySubTopics(String subs);
 
-    List<Mentor> findByThoughtsText(String thoughts);
+    List<Mentor> findByThoughts(String thoughts);
 }

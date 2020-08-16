@@ -68,7 +68,6 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
         LoginResponse loginResponse = new LoginResponse(user.get().getId(), user.get().getEmail(),
                 user.get().getUsername(), user.get().getAuthorities());
-        System.out.println(user.toString());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token, loginResponse));

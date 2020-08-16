@@ -104,7 +104,9 @@ public class User implements OAuth2User, UserDetails {
         }
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
         authorities.add(new SimpleGrantedAuthority("test"));
+        this.setAuthorities();
        */
+
         return authorities;
     }
 

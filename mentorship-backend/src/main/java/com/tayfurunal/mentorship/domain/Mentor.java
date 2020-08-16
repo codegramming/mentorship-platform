@@ -37,7 +37,7 @@ public class Mentor {
     private String subTopics;
 
     @Field(type = FieldType.Text)
-    private String thoughtsText;
+    private String thoughts;
 
     @Enumerated(EnumType.STRING)
     private progressStatus status = progressStatus.IN_PROGRESS;
