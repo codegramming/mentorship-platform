@@ -31,6 +31,8 @@ public class Mentorship {
 
     private Integer currentPhase;
 
+    private Boolean hasPhase = false;
+
     @OneToOne
     Mentor mentor;
 
@@ -46,8 +48,19 @@ public class Mentorship {
     private Mentorship.status status;
 
     public static enum status {
-        NOT_STARTED,
-        COMPLETED,
-        CONTINUING
+        NOT_STARTED("Not Started"),
+        COMPLETED("Completed"),
+        CONTINUING("Continuing");
+
+        private String name;
+
+        status(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
     }
 }
