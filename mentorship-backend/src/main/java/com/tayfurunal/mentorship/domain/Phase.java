@@ -1,5 +1,7 @@
 package com.tayfurunal.mentorship.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +19,9 @@ public class Phase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer phaseId;
+    private String name;
+
+    private String endDate;
 
     private String assessmentOfMentor;
 
@@ -28,12 +32,14 @@ public class Phase {
     private String ratingOfMentee;
 
     @ManyToOne
+    @JsonIgnore
     private Mentorship mentorship;
 
     @Enumerated(EnumType.STRING)
     private phaseStatus status;
 
     public static enum phaseStatus {
+        NOT_ACTIVE,
         ACTIVE,
         COMPLETED
     }
