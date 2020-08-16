@@ -1,5 +1,6 @@
 package com.tayfurunal.mentorship.controller;
 
+import com.tayfurunal.mentorship.domain.Phase;
 import com.tayfurunal.mentorship.dto.MentorshipDto;
 import com.tayfurunal.mentorship.payload.ApiError;
 import com.tayfurunal.mentorship.service.MentorshipService;
@@ -46,6 +47,12 @@ public class MentorshipController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMentorshipById(@PathVariable(value = "id", required = true) Long id) {
         return mentorshipService.getMentorshipDetailsById(id);
+    }
+
+    @PostMapping("/addPhase/{id}")
+    public ResponseEntity<?> addPhase(@PathVariable(value = "id", required = true) Long id, @Valid @RequestBody Phase phase) {
+        System.out.println(phase);
+        return mentorshipService.addPhaseToMentorship(id, phase);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
