@@ -54,7 +54,19 @@ public class MentorServiceImpl implements MentorService {
         }
         mentor.setStatus(newStatus);
         mentorRepository.save(mentor);
+        saveElasticRepository(mentor);
         return new ResponseEntity<Mentor>(mentor, HttpStatus.OK);
+    }
+
+    private void saveElasticRepository(Mentor mentor) {
+        User user = new User();
+        user.setId(mentor.getUser().getId());
+        user.setEmail(mentor.getUser().getEmail());
+        user.setUsername(mentor.getUser().getUsername());
+        user.setDisplayName(mentor.getUser().getDisplayName());
+        mentor.setUser(user);
+
+        mentorSearchRepository.save(mentor);
     }
 
     @Override
@@ -80,8 +92,8 @@ public class MentorServiceImpl implements MentorService {
         if (main != null) {
             mentors = mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
         } else {
-            Iterable<Mentor> mentorList = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.ACCEPTED);
-            mentorList.forEach((mentor -> {
+            List<Mentor> mentorList = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.ACCEPTED);
+            /*mentorList.forEach((mentor -> {
                 User user = new User();
                 user.setId(mentor.getUser().getId());
                 user.setEmail(mentor.getUser().getEmail());
@@ -90,10 +102,15 @@ public class MentorServiceImpl implements MentorService {
                 mentor.setUser(user);
             }
             ));
-            mentorSearchRepository.deleteAll();
-            mentorSearchRepository.saveAll(mentorList);
+            mentorSearchRepository.saveAll(mentorList);*/
+            List<Mentor> searchList = mentorSearchRepository.findAll();
+            searchList.forEach((mentor -> {
+                if (!mentorList.contains(mentor)) {
+                    mentorSearchRepository.delete(mentor);
+                }
+            }));
             mentors = subs != null ? mentorSearchRepository.findBySubTopics(subs) :
-                    mentorSearchRepository.findByThoughtsText(thoughts);
+                    mentorSearchRepository.findByThoughts(thoughts);
         }
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
