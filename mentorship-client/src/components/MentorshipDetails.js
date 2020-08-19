@@ -14,6 +14,12 @@ class SelectMentor extends Component {
       menteeDisplayName: '',
       status: '',
       startDate: '',
+      numberOfPhases: 0,
+      hasPhase: false,
+      mentorThoughts: '',
+      menteeThoughts: '',
+      currentPhase: 0,
+      phases: [],
     };
   }
 
@@ -22,10 +28,16 @@ class SelectMentor extends Component {
       `http://localhost:8080/api/mentorships/${id}`
     );
     this.setState({
-      mentorDisplayName: application.data.mentorDisplayName,
-      menteeDisplayName: application.data.menteeDisplayName,
+      mentorDisplayName: application.data.mentor.user.displayName,
+      menteeDisplayName: application.data.mentee.user.displayName,
       status: application.data.status,
       startDate: application.data.startDate,
+      numberOfPhases: application.data.numberOfPhases,
+      hasPhase: application.data.hasPhase,
+      mentorThoughts: application.data.mentorThoughts,
+      menteeThoughts: application.data.menteeThoughts,
+      currentPhase: application.data.currentPhase,
+      phases: application.data.phases,
     });
   };
 
@@ -36,6 +48,19 @@ class SelectMentor extends Component {
     };
     await axios.post(`http://localhost:8080/api/mentorships`, mentorshipDto);
     this.props.history.push('/');
+  };
+
+  startMentorship = async () => {
+    const { id } = this.props.match.params;
+    await axios
+      .put(`http://localhost:8080/api/mentorships/${id}`)
+      .then((res) => {
+        this.setState({
+          currentPhase: res.data.currentPhase,
+          phases: res.data.phases,
+          status: res.data.status,
+        });
+      });
   };
 
   componentDidMount() {
@@ -49,8 +74,9 @@ class SelectMentor extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Header />
+
         <section
           class='section section-hero gradient-light--lean-right'
           style={{ paddingTop: '0px', paddingBottom: '1.4rem' }}
@@ -58,7 +84,7 @@ class SelectMentor extends Component {
           <div class='container'>
             <div class='row mt-5'>
               <div class='col-md-8'>
-                <Link to='/adminPanel'>
+                <Link to='/'>
                   <small class='text-uppercase text-muted d-inline-block mb-3'>
                     <i class='fas fa-arrow-left'></i> Back
                   </small>
@@ -78,51 +104,197 @@ class SelectMentor extends Component {
         >
           <div class='container'>
             <div class='row'>
-              <div class='col-md-7 order-md-1'>
-                <h3 class='h2 mb-4'>Who is the Mentor?</h3>
+              <div className='col-md-6'>
+                <table class='table table-hover'>
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope='row'>Mentor Name:</th>
+                      <td>{this.state.mentorDisplayName}</td>
+                    </tr>
+                    <tr>
+                      <th scope='row'>Mentee Name:</th>
+                      <td>{this.state.menteeDisplayName}</td>
+                    </tr>
+                    <tr>
+                      <th scope='row'>Start Date:</th>
+                      <td>{this.state.startDate}</td>
+                    </tr>
+                    <tr>
+                      <th scope='row'>Status:</th>
+                      <td>{this.state.status}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
-                <p class='mb-5'>
-                  <table class='table'>
-                    <thead class='thead-light'>
-                      <tr>
-                        <th scope='col'>Display Name</th>
-                        <th scope='col'>Username</th>
-                        <th scope='col'>Email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{this.state.displayName}</td>
-                        <td>{this.state.username}</td>
-                        <td>{this.state.email}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </p>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-10'>
+                <div class='job-list__wrapper mb-4'>
+                  <h3 class='h2 mb-4'>Phase List</h3>
+                  {this.state.phases.length === 0 ? (
+                    <div
+                      class='alert alert-info text-center'
+                      role='alert'
+                      style={{ marginTop: 30 }}
+                    >
+                      <h3>There is no phase</h3>
+                    </div>
+                  ) : (
+                    this.state.phases.map((phase, index) => {
+                      return (
+                        <>
+                          <div className='row'>
+                            <div className='col-md-12'>
+                              <div key={index}>
+                                <div class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'>
+                                  <div class='card-body'>
+                                    <span class='row justify-content-between align-items-center'>
+                                      <span class='col-md-1 color--heading'>
+                                        <span class='badge badge-circle background--success text-white'>
+                                          {phase.phaseId}
+                                        </span>{' '}
+                                      </span>
+                                      <span class='col-md-5  my-sm-0 color--text'>
+                                        <i class='fas fa-book-reader'></i>{' '}
+                                        {phase.name}
+                                      </span>
 
-                <h3 class='h2 mb-4'>Mentor's Skills</h3>
-
-                <ul class='mb-5 list-group'>
-                  <li class='list-group-item active'>{this.state.mainTopic}</li>
-                  <li class='list-group-item'>{this.state.subTopics}</li>
-                </ul>
-
-                <h3 class='h2 mb-4'>Mentor's Thoughts</h3>
-                <p className='mb-4 font-italic' style={{ fontSize: '20px' }}>
-                  {this.state.thoughts}
-                </p>
-
+                                      <span class='col-md-3 my-3 my-sm-0 color--text'>
+                                        <i class='fas fa-calendar-alt'></i>{' '}
+                                        {phase.endDate}
+                                      </span>
+                                      {phase.status === 'NOT_ACTIVE' && (
+                                        <div className='col-md-2 mr-2 text-danger'>
+                                          <i class='far fa-clock'></i> Not
+                                          Active
+                                        </div>
+                                      )}
+                                      {phase.status === 'ACTIVE' && (
+                                        <Link
+                                          to={`/completePhase/${phase.id}`}
+                                          className='col-md-2 mr-2 btn btn-outline-success btn-sm'
+                                        >
+                                          Complete
+                                        </Link>
+                                      )}
+                                      {phase.status === 'PENDING' && (
+                                        <Link
+                                          to={`/completePhase/${phase.id}`}
+                                          className='col-md-2 mr-2 btn btn-outline-success btn-sm'
+                                        >
+                                          Pending Evaluation
+                                        </Link>
+                                      )}
+                                      {phase.status === 'COMPLETED' && (
+                                        <div className='col-md-2 mr-2 text-success'>
+                                          <i class='far fa-check'></i> Completed
+                                        </div>
+                                      )}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className='row'>
+                                  {phase.assessmentOfMentor && (
+                                    <div className='col-md-5'>
+                                      {' '}
+                                      <div class='swiper-slide testimony__card p-3'>
+                                        <blockquote class='blockquote shadow'>
+                                          <footer class='blockquote-footer d-flex align-items-center'>
+                                            <div class='testimony__info d-inline-block'>
+                                              <span class='info-name d-block'>
+                                                Mentor
+                                              </span>
+                                              <span class='info-company d-block'>
+                                                {this.state.mentorDisplayName}
+                                              </span>
+                                            </div>
+                                          </footer>
+                                          <p class='ml-3'>
+                                            {phase.assessmentOfMentor}
+                                          </p>
+                                          <span class='rating text-warning d-block mt-1'>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                          </span>
+                                        </blockquote>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {phase.assessmentOfMentee && (
+                                    <div className='col-md-5'>
+                                      {' '}
+                                      <div class='swiper-slide testimony__card p-3'>
+                                        <blockquote class='blockquote shadow'>
+                                          <footer class='blockquote-footer d-flex align-items-center'>
+                                            <div class='testimony__info d-inline-block'>
+                                              <span class='info-name d-block'>
+                                                Mentee
+                                              </span>
+                                              <span class='info-company d-block'>
+                                                {this.state.menteeDisplayName}
+                                              </span>
+                                            </div>
+                                          </footer>
+                                          <p class='ml-3'>
+                                            {phase.assessmentOfMentee}
+                                          </p>
+                                          <span class='rating text-warning d-block mt-1'>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                            <i class='fas fa-star'></i>
+                                          </span>
+                                        </blockquote>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })
+                  )}
+                </div>
                 <div className='container'>
                   <div className='row text-center'>
                     <div className='col'>
-                      <button
-                        href='#0'
-                        style={{ width: '20rem' }}
-                        class='btn btn-success'
-                        onClick={this.planTheProcess}
-                      >
-                        SELECT THE MENTOR
-                      </button>
+                      {this.state.hasPhase === false && (
+                        <Link
+                          to={`/planMentorship/${this.props.match.params.id}`}
+                        >
+                          <button
+                            href='#0'
+                            style={{ width: '20rem' }}
+                            class='btn btn-success'
+                          >
+                            PLAN THE MENTORSHIP
+                          </button>
+                        </Link>
+                      )}
+
+                      {this.state.hasPhase === true &&
+                        this.state.currentPhase == 0 && (
+                          <button
+                            href='#0'
+                            style={{ width: '20rem' }}
+                            class='btn btn-success'
+                            onClick={this.startMentorship}
+                          >
+                            START THE MENTORSHIP
+                          </button>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -130,7 +302,7 @@ class SelectMentor extends Component {
             </div>
           </div>
         </section>
-      </div>
+      </>
     );
   }
 }
