@@ -17,16 +17,15 @@ public class UserDto {
     private Long id;
 
     @NotBlank
-    @Size(min = 4, max = 16)
     @ApiModelProperty(required = true)
     private String username;
+
+    @ApiModelProperty(required = true)
+    private String displayName;
 
     @Email
     @NotBlank
     @Size(min = 1, max = 129)
     @ApiModelProperty(required = true)
     private String email;
-
-    @Size(max = 2048)
-    private String imageUrl;
 }
