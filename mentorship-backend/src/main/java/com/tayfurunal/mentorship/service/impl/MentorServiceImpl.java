@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class MentorServiceImpl implements MentorService {
 
@@ -28,6 +30,15 @@ public class MentorServiceImpl implements MentorService {
         this.userRepository = userRepository;
         this.mentorRepository = mentorRepository;
         this.mentorSearchRepository = mentorSearchRepository;
+    }
+
+    @PostConstruct
+    private void init() {
+        ApplyStatusRequest applyStatusRequest = new ApplyStatusRequest();
+        applyStatusRequest.setStatus("ACCEPTED");
+
+        changeApplyStatus(applyStatusRequest, 300L);
+        changeApplyStatus(applyStatusRequest, 301L);
     }
 
     @Override
