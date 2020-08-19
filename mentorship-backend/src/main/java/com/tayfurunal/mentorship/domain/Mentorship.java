@@ -1,13 +1,13 @@
 package com.tayfurunal.mentorship.domain;
 
+import org.hibernate.annotations.OrderBy;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,10 +42,10 @@ public class Mentorship {
     Date startDate = new Date();
 
     @OneToMany(mappedBy = "mentorship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy(clause = "phaseId")
     private List<Phase> phases = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private Mentorship.status status;
+    private String status;
 
     public static enum status {
         NOT_STARTED("Not Started"),
