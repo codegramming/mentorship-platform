@@ -88,10 +88,14 @@ class SearchMentor extends Component {
   };
 
   getMain = async (userMainTopic) => {
-    let mentorsWithMain = await axios.get(
-      `http://localhost:8080/api/mentors/search?main=${userMainTopic}`
-    );
-    this.setState({ mentors: mentorsWithMain.data });
+    if (userMainTopic == 0) {
+      this.getMentors();
+    } else {
+      let mentorsWithMain = await axios.get(
+        `http://localhost:8080/api/mentors/search?main=${userMainTopic}`
+      );
+      this.setState({ mentors: mentorsWithMain.data });
+    }
   };
 
   resetValues() {
