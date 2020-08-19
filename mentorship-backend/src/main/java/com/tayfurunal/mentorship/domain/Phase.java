@@ -19,6 +19,8 @@ public class Phase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer phaseId;
+
     private String name;
 
     private String endDate;
@@ -31,6 +33,8 @@ public class Phase {
 
     private String ratingOfMentee;
 
+    private Boolean isComplete = false;
+
     @ManyToOne
     @JsonIgnore
     private Mentorship mentorship;
@@ -41,6 +45,7 @@ public class Phase {
     public static enum phaseStatus {
         NOT_ACTIVE,
         ACTIVE,
-        COMPLETED
+        COMPLETED,
+        PENDING
     }
 }
