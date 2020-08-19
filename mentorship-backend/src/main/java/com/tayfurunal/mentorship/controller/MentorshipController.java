@@ -3,6 +3,7 @@ package com.tayfurunal.mentorship.controller;
 import com.tayfurunal.mentorship.domain.Phase;
 import com.tayfurunal.mentorship.dto.MentorshipDto;
 import com.tayfurunal.mentorship.payload.ApiError;
+import com.tayfurunal.mentorship.payload.PhaseRequest;
 import com.tayfurunal.mentorship.service.MentorshipService;
 
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -45,14 +47,25 @@ public class MentorshipController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMentorshipById(@PathVariable(value = "id", required = true) Long id) {
-        return mentorshipService.getMentorshipDetailsById(id);
+    public ResponseEntity<?> getMentorshipById(@PathVariable(value = "id", required = true) Long id, Principal principal) {
+        return mentorshipService.getMentorshipDetailsById(id, principal.getName());
     }
 
     @PostMapping("/addPhase/{id}")
     public ResponseEntity<?> addPhase(@PathVariable(value = "id", required = true) Long id, @Valid @RequestBody Phase phase) {
-        System.out.println(phase);
         return mentorshipService.addPhaseToMentorship(id, phase);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> startMentorshipById(@PathVariable(value = "id", required = true) Long id) {
+        return mentorshipService.startMentorship(id);
+    }
+
+    @PostMapping("/{id}/complete/{phaseId}")
+    public ResponseEntity<?> completePhase(@PathVariable(value = "id", required = true) Long id,
+                                           @PathVariable(value = "phaseId", required = true) Integer phaseId,
+                                           Principal principal, @Valid @RequestBody PhaseRequest phase) {
+        return mentorshipService.completePhase(id, phaseId, principal.getName(), phase);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
