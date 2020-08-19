@@ -18,9 +18,8 @@ import { logout } from './actions/securityActions';
 import SearchMentor from './components/SearchMentor';
 import SelectMentor from './components/SelectMentor';
 import MentorshipDetails from './components/MentorshipDetails';
-
-//import './App.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import PlanMentorship from './components/PlanMentorship';
+import CompletePhase from './components/CompletePhase';
 
 const accessToken = localStorage.accessToken;
 const roles = [];
@@ -73,6 +72,16 @@ function App() {
               exact
               path='/mentorshipDetails/:id'
               component={(props) => <MentorshipDetails {...props} />}
+            />
+            <Route
+              exact
+              path='/planMentorship/:id'
+              component={(props) => <PlanMentorship {...props} />}
+            />
+            <Route
+              exact
+              path='/completePhase/:id'
+              component={(props) => <CompletePhase {...props} />}
             />
             <Route
               exact
