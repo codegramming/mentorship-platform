@@ -16,5 +16,9 @@ public interface MentorshipService {
 
     ResponseEntity<?> startMentorship(Long id);
 
-    ResponseEntity<?> completePhase(Long id, Integer phaseId, String username, PhaseRequest phaseRequest);
+    ResponseEntity<?> completePhase(Long id, String username, PhaseRequest phaseRequest);
+
+    ResponseEntity<?> getMentorByUser(String username);
+
+    ResponseEntity<?> getMenteeByUser(String username);
 }

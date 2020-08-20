@@ -106,42 +106,78 @@ public class MentorshipServiceImpl implements MentorshipService {
     }
 
     @Override
-    public ResponseEntity<?> completePhase(Long id, Integer phaseId, String username, PhaseRequest phaseRequest) {
+    public ResponseEntity<?> completePhase(Long id, String username, PhaseRequest phaseRequest) {
         Phase phase = phaseRepository.getById(id);
         Mentorship mentorship = phase.getMentorship();
         UserDetails userDetails = detectUser(mentorship, username);
 
         if (userDetails.equals(UserDetails.MENTOR)) {
-            phase.setAssessmentOfMentor(phaseRequest.getAssessments());
-            phase.setStatus(Phase.phaseStatus.PENDING);
-            mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+            phase.setAssessmentOfMentor(phaseRequest.getAssessment());
+            if (phase.getIsMenteeFinish()) {
+                phase.setIsComplete(true);
+                phase.setStatus(Phase.phaseStatus.COMPLETED);
+            } else {
+                phase.setStatus(Phase.phaseStatus.PENDING);
+                mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+            }
+
             mentorship.getPhases().forEach(phase1 -> {
                 if (phase1.getPhaseId().equals(mentorship.getCurrentPhase())) {
                     phase1.setStatus(Phase.phaseStatus.ACTIVE);
                 }
-                if (phase1.getPhaseId().equals(mentorship.getNumberOfPhases())) {
-                    mentorship.setStatus(Mentorship.status.COMPLETED.getName());
-                }
             });
-            //phase.setRatingOfMentor();
+            phase.setIsMentorFinish(true);
+            phase.setRatingOfMentor(phaseRequest.getRating());
         } else if (userDetails.equals(UserDetails.MENTEE)) {
-            phase.setAssessmentOfMentee(phaseRequest.getAssessments());
-            phase.setStatus(Phase.phaseStatus.PENDING);
-            mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+            phase.setAssessmentOfMentee(phaseRequest.getAssessment());
+            if (phase.getIsMentorFinish()) {
+                phase.setIsComplete(true);
+                phase.setStatus(Phase.phaseStatus.COMPLETED);
+            } else {
+                phase.setStatus(Phase.phaseStatus.PENDING);
+                mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+            }
+
             mentorship.getPhases().forEach(phase1 -> {
                 if (phase1.getPhaseId().equals(mentorship.getCurrentPhase())) {
                     phase1.setStatus(Phase.phaseStatus.ACTIVE);
                 }
-                if (phase1.getPhaseId().equals(mentorship.getNumberOfPhases())) {
-                    mentorship.setStatus(Mentorship.status.COMPLETED.getName());
-                }
             });
-            //phase.setRatingOfMentor();
+            phase.setIsMenteeFinish(true);
+
+            if (phase.getPhaseId().equals(mentorship.getNumberOfPhases()) && phase.getIsComplete()) {
+                mentorship.setStatus(Mentorship.status.COMPLETED.getName());
+            }
+            phase.setRatingOfMentee(phaseRequest.getRating());
         }
 
         mentorshipRepository.save(mentorship);
         phaseRepository.save(phase);
         return new ResponseEntity<>(phase, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getMentorByUser(String username) {
+        User user = userRepository.getByUsername(username);
+        List<Mentor> mentors = mentorRepository.findAllByUser(user);
+        List<Mentorship> mentorships = null;
+        for (Mentor mentor : mentors) {
+            mentorships = mentorshipRepository.findAllByMentor(mentor);
+        }
+
+        return new ResponseEntity<>(mentorships, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getMenteeByUser(String username) {
+        User user = userRepository.getByUsername(username);
+        List<Mentee> mentees = menteeRepository.findAllByUser(user);
+        List<Mentorship> mentorships = null;
+        for (Mentee mentee : mentees) {
+            mentorships = mentorshipRepository.findAllByMentee(mentee);
+        }
+
+        return new ResponseEntity<>(mentorships, HttpStatus.OK);
     }
 
     public UserDetails detectUser(Mentorship mentorship, String username) {
