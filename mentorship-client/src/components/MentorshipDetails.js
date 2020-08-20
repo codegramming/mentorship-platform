@@ -10,8 +10,11 @@ class SelectMentor extends Component {
     super();
 
     this.state = {
+      currentUser: '',
       mentorDisplayName: '',
       menteeDisplayName: '',
+      mentorUsername: '',
+      menteeUsername: '',
       status: '',
       startDate: '',
       numberOfPhases: 0,
@@ -19,6 +22,8 @@ class SelectMentor extends Component {
       mentorThoughts: '',
       menteeThoughts: '',
       currentPhase: 0,
+      isMentor: false,
+      isMentee: false,
       phases: [],
     };
   }
@@ -29,7 +34,9 @@ class SelectMentor extends Component {
     );
     this.setState({
       mentorDisplayName: application.data.mentor.user.displayName,
+      mentorUsername: application.data.mentor.user.username,
       menteeDisplayName: application.data.mentee.user.displayName,
+      menteeUsername: application.data.mentee.user.username,
       status: application.data.status,
       startDate: application.data.startDate,
       numberOfPhases: application.data.numberOfPhases,
@@ -63,12 +70,68 @@ class SelectMentor extends Component {
       });
   };
 
+  getCurrentUser = async () => {
+    await axios
+      .get('http://localhost:8080/api/auth/user/me')
+      .then((res) => {
+        this.setState({ currentUser: res.data.username });
+      })
+      .then(() => {
+        if (this.state.mentorUsername === this.state.currentUser) {
+          this.setState({ isMentor: true });
+        }
+        if (this.state.menteeUsername === this.state.currentUser) {
+          this.setState({ isMentee: true });
+        }
+      });
+  };
+
+  getPendingPhaseButton = (phase) => {
+    let { isMentee, isMentor } = this.state;
+    if (isMentee && phase.assessmentOfMentee !== null) {
+      return (
+        <Link className='col-md-2 mr-2 btn btn-outline-success btn-sm'>
+          Pending Evaluation
+        </Link>
+      );
+    } else if (isMentee && phase.assessmentOfMentee === null) {
+      return (
+        <Link
+          to={`/completePhase/${phase.id}`}
+          className='col-md-2 mr-2 btn btn-outline-success btn-sm'
+        >
+          Pending Evaluation
+        </Link>
+      );
+    }
+
+    if (isMentor && phase.assessmentOfMentor !== null) {
+      return (
+        <Link className='col-md-2 mr-2 btn btn-outline-success btn-sm'>
+          Pending Evaluation
+        </Link>
+      );
+    } else if (isMentor && phase.assessmentOfMentor === null) {
+      return (
+        <Link
+          to={`/completePhase/${phase.id}`}
+          className='col-md-2 mr-2 btn btn-outline-success btn-sm'
+          mentorshipId={this.props.match.params.id}
+        >
+          Pending Evaluation
+        </Link>
+      );
+    }
+  };
+
   componentDidMount() {
     if (!this.props.security.roles[0]?.includes('USER')) {
       this.props.history.push('/');
     } else {
       const { id } = this.props.match.params;
-      this.getMentorship(id);
+      this.getMentorship(id).then(() => {
+        this.getCurrentUser();
+      });
     }
   }
 
@@ -76,7 +139,6 @@ class SelectMentor extends Component {
     return (
       <>
         <Header />
-
         <section
           class='section section-hero gradient-light--lean-right'
           style={{ paddingTop: '0px', paddingBottom: '1.4rem' }}
@@ -164,7 +226,6 @@ class SelectMentor extends Component {
                                         <i class='fas fa-book-reader'></i>{' '}
                                         {phase.name}
                                       </span>
-
                                       <span class='col-md-3 my-3 my-sm-0 color--text'>
                                         <i class='fas fa-calendar-alt'></i>{' '}
                                         {phase.endDate}
@@ -183,14 +244,9 @@ class SelectMentor extends Component {
                                           Complete
                                         </Link>
                                       )}
-                                      {phase.status === 'PENDING' && (
-                                        <Link
-                                          to={`/completePhase/${phase.id}`}
-                                          className='col-md-2 mr-2 btn btn-outline-success btn-sm'
-                                        >
-                                          Pending Evaluation
-                                        </Link>
-                                      )}
+                                      {phase.status === 'PENDING' &&
+                                        this.getPendingPhaseButton(phase)}
+
                                       {phase.status === 'COMPLETED' && (
                                         <div className='col-md-2 mr-2 text-success'>
                                           <i class='far fa-check'></i> Completed
