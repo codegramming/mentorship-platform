@@ -31,9 +31,13 @@ public class Phase {
 
     private String assessmentOfMentee;
 
-    private String ratingOfMentee;
+    private Integer ratingOfMentee;
 
     private Boolean isComplete = false;
+
+    private Boolean isMentorFinish = false;
+
+    private Boolean isMenteeFinish = false;
 
     @ManyToOne
     @JsonIgnore
