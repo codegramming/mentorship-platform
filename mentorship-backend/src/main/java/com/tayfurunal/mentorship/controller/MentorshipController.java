@@ -61,11 +61,20 @@ public class MentorshipController {
         return mentorshipService.startMentorship(id);
     }
 
-    @PostMapping("/{id}/complete/{phaseId}")
+    @PostMapping("/completePhase/{id}")
     public ResponseEntity<?> completePhase(@PathVariable(value = "id", required = true) Long id,
-                                           @PathVariable(value = "phaseId", required = true) Integer phaseId,
                                            Principal principal, @Valid @RequestBody PhaseRequest phase) {
-        return mentorshipService.completePhase(id, phaseId, principal.getName(), phase);
+        return mentorshipService.completePhase(id, principal.getName(), phase);
+    }
+
+    @GetMapping("/mentors/me")
+    public ResponseEntity<?> getMyMentorshipsMentor(Principal principal) {
+        return mentorshipService.getMentorByUser(principal.getName());
+    }
+
+    @GetMapping("/mentee/me")
+    public ResponseEntity<?> getMyMentorshipsMentee(Principal principal) {
+        return mentorshipService.getMenteeByUser(principal.getName());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
