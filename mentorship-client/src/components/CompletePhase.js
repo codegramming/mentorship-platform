@@ -12,10 +12,8 @@ class CompletePhase extends Component {
     super();
 
     this.state = {
-      newPhase: {},
-      name: '',
-      endDate: '',
-      success: false,
+      assessment: '',
+      rating: 1,
       errors: {},
     };
   }
@@ -27,15 +25,7 @@ class CompletePhase extends Component {
     ) {
       this.props.history.push('/adminPanel');
     }
-    const { id } = this.props.match.params;
-    this.getPhases(id);
   }
-
-  getPhases = async (id) => {
-    axios.get(`http://localhost:8080/api/mentorships/${id}`).then((res) => {
-      this.setState({ phases: res.data.phases });
-    });
-  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -50,42 +40,19 @@ class CompletePhase extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     phaseId++;
-    const newPhase = {
-      phaseId: phaseId,
-      name: this.state.name,
-      endDate: this.state.endDate,
+    const completedPhase = {
+      assessment: this.state.assessment,
+      rating: this.state.rating,
     };
-    this.setState({ phases: [...this.state.phases, newPhase] });
-    /*const { id } = this.props.match.params;
-    await axios
-      .post(`http://localhost:8080/api/mentorships/addPhase/${id}`, newPhase)
-      .then(() => {
-        this.getPhases(id);
-      });*/
-  };
-
-  handleDelete = (item) => {
-    const filteredItems = this.state.phases.filter(
-      (phase) => phase.phaseId !== item.phaseId
-    );
-    phaseId--;
-    this.setState({
-      phases: filteredItems,
-    });
-  };
-
-  savePhases = async (e) => {
-    e.preventDefault();
     const { id } = this.props.match.params;
-    const phases = this.state.phases;
-    for (let i = 0; i < phases.length; i++) {
-      await axios.post(
-        `http://localhost:8080/api/mentorships/addPhase/${id}`,
-        phases[i]
-      );
-    }
-
-    this.props.history.push(`/mentorshipDetails/${id}`);
+    await axios
+      .post(
+        `http://localhost:8080/api/mentorships/completePhase/${id}`,
+        completedPhase
+      )
+      .then(() => {
+        this.props.history.goBack();
+      });
   };
 
   render() {
@@ -117,7 +84,7 @@ class CompletePhase extends Component {
                 <form onSubmit={this.onSubmit}>
                   <div className='form-group mt-3'>
                     <label class='required-field' for='email'>
-                      Phase Name
+                      Assessment
                     </label>
                     <input
                       type='text'
@@ -126,32 +93,38 @@ class CompletePhase extends Component {
                           ? 'form-control form-control-lg is-invalid'
                           : 'form-control form-control-lg'
                       }
-                      placeholder='Phase name'
-                      name='name'
-                      value={this.state.name}
+                      placeholder='Assessment'
+                      name='assessment'
+                      value={this.state.assessment}
                       onChange={this.onChange}
                     ></input>
-                    {errors.name && (
-                      <div className='invalid-feedback'>{errors.name}</div>
+                    {errors.assessment && (
+                      <div className='invalid-feedback'>
+                        {errors.assessment}
+                      </div>
                     )}
                   </div>
                   <div className='form-group mt-3'>
                     <label class='required-field' for='email'>
-                      End Date
+                      Rating
                     </label>
-                    <input
-                      type='date'
-                      className={
-                        errors.endDate
-                          ? 'form-control form-control-lg is-invalid'
-                          : 'form-control form-control-lg'
-                      }
-                      name='endDate'
-                      value={this.state.endDate}
+                    <select
+                      name='rating'
+                      value={this.state.rating}
+                      class='custom-select my-1 mr-sm-2'
+                      id='inlineFormCustomSelectPref'
                       onChange={this.onChange}
-                    />
-                    {errors.endDate && (
-                      <div className='invalid-feedback'>{errors.endDate}</div>
+                    >
+                      <option selected value='1'>
+                        1
+                      </option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                      <option value='5'>5</option>
+                    </select>
+                    {errors.rating && (
+                      <div className='invalid-feedback'>{errors.rating}</div>
                     )}
                   </div>
                   <input
