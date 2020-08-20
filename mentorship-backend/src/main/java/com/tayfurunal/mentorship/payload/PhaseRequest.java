@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class PhaseRequest {
 
-    private String assessments;
+    private String assessment;
+
+    private Integer rating;
 }
