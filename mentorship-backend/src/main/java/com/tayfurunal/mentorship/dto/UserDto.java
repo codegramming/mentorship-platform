@@ -20,9 +20,6 @@ public class UserDto {
     @ApiModelProperty(required = true)
     private String username;
 
-    @ApiModelProperty(required = true)
-    private String displayName;
-
     @Email
     @NotBlank
     @Size(min = 1, max = 129)
