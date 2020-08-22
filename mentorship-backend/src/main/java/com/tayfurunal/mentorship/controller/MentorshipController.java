@@ -67,14 +67,9 @@ public class MentorshipController {
         return mentorshipService.completePhase(id, principal.getName(), phase);
     }
 
-    @GetMapping("/mentors/me")
+    @GetMapping("/me")
     public ResponseEntity<?> getMyMentorshipsMentor(Principal principal) {
-        return mentorshipService.getMentorByUser(principal.getName());
-    }
-
-    @GetMapping("/mentee/me")
-    public ResponseEntity<?> getMyMentorshipsMentee(Principal principal) {
-        return mentorshipService.getMenteeByUser(principal.getName());
+        return mentorshipService.getMyMentorships(principal.getName());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

@@ -8,6 +8,7 @@ import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.dto.MentorshipDto;
 import com.tayfurunal.mentorship.exception.MentorshipNotFoundException;
 import com.tayfurunal.mentorship.payload.PhaseRequest;
+import com.tayfurunal.mentorship.payload.UsersMentorshipsResponse;
 import com.tayfurunal.mentorship.repository.jpa.MenteeRepository;
 import com.tayfurunal.mentorship.repository.jpa.MentorRepository;
 import com.tayfurunal.mentorship.repository.jpa.MentorshipRepository;
@@ -77,7 +78,6 @@ public class MentorshipServiceImpl implements MentorshipService {
     @Override
     public ResponseEntity<?> addPhaseToMentorship(Long id, Phase phase) {
         Mentorship mentorship = mentorshipRepository.getById(id);
-
 
         phase.setMentorship(mentorship);
         phase.setStatus(Phase.phaseStatus.NOT_ACTIVE);
@@ -157,27 +157,26 @@ public class MentorshipServiceImpl implements MentorshipService {
     }
 
     @Override
-    public ResponseEntity<?> getMentorByUser(String username) {
+    public ResponseEntity<?> getMyMentorships(String username) {
         User user = userRepository.getByUsername(username);
         List<Mentor> mentors = mentorRepository.findAllByUser(user);
-        List<Mentorship> mentorships = null;
-        for (Mentor mentor : mentors) {
-            mentorships = mentorshipRepository.findAllByMentor(mentor);
-        }
-
-        return new ResponseEntity<>(mentorships, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> getMenteeByUser(String username) {
-        User user = userRepository.getByUsername(username);
         List<Mentee> mentees = menteeRepository.findAllByUser(user);
-        List<Mentorship> mentorships = null;
-        for (Mentee mentee : mentees) {
-            mentorships = mentorshipRepository.findAllByMentee(mentee);
+
+        List<Mentorship> myMentors = null;
+        for (Mentor mentor : mentors) {
+            myMentors = mentorshipRepository.findAllByMentor(mentor);
         }
 
-        return new ResponseEntity<>(mentorships, HttpStatus.OK);
+        List<Mentorship> myMentees = null;
+        for (Mentee mentee : mentees) {
+            myMentees = mentorshipRepository.findAllByMentee(mentee);
+        }
+
+        UsersMentorshipsResponse usersMentorshipsResponse = new UsersMentorshipsResponse();
+        usersMentorshipsResponse.setMentors(myMentors);
+        usersMentorshipsResponse.setMentees(myMentees);
+
+        return new ResponseEntity<>(usersMentorshipsResponse, HttpStatus.OK);
     }
 
     public UserDetails detectUser(Mentorship mentorship, String username) {
