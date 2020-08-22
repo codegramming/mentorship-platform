@@ -228,7 +228,7 @@ class SelectMentor extends Component {
                                       </span>
                                       <span class='col-md-3 my-3 my-sm-0 color--text'>
                                         <i class='fas fa-calendar-alt'></i>{' '}
-                                        {phase.endDate}
+                                        {phase.endDate + ' ' + phase.endTime}
                                       </span>
                                       {phase.status === 'NOT_ACTIVE' && (
                                         <div className='col-md-2 mr-2 text-danger'>

@@ -25,6 +25,8 @@ public class Phase {
 
     private String endDate;
 
+    private String endTime;
+
     private String assessmentOfMentor;
 
     private Integer ratingOfMentor;

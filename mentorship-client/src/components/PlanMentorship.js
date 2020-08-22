@@ -16,6 +16,7 @@ class PlanMentorship extends Component {
       newPhase: {},
       name: '',
       endDate: '',
+      endTime: '09:00',
       success: false,
       errors: {},
     };
@@ -55,14 +56,9 @@ class PlanMentorship extends Component {
       phaseId: phaseId,
       name: this.state.name,
       endDate: this.state.endDate,
+      endTime: this.state.endTime,
     };
     this.setState({ phases: [...this.state.phases, newPhase] });
-    /*const { id } = this.props.match.params;
-    await axios
-      .post(`http://localhost:8080/api/mentorships/addPhase/${id}`, newPhase)
-      .then(() => {
-        this.getPhases(id);
-      });*/
   };
 
   handleDelete = (item) => {
@@ -138,24 +134,56 @@ class PlanMentorship extends Component {
                       <div className='invalid-feedback'>{errors.name}</div>
                     )}
                   </div>
-                  <div className='form-group mt-3'>
-                    <label class='required-field' for='email'>
-                      End Date
-                    </label>
-                    <input
-                      type='date'
-                      className={
-                        errors.endDate
-                          ? 'form-control form-control-lg is-invalid'
-                          : 'form-control form-control-lg'
-                      }
-                      name='endDate'
-                      value={this.state.endDate}
-                      onChange={this.onChange}
-                    />
-                    {errors.endDate && (
-                      <div className='invalid-feedback'>{errors.endDate}</div>
-                    )}
+                  <div className='row'>
+                    <div className='col-md-6'>
+                      {' '}
+                      <div className='form-group mt-3'>
+                        <label class='required-field' for='email'>
+                          End Date
+                        </label>
+                        <input
+                          type='date'
+                          className={
+                            errors.endDate
+                              ? 'form-control form-control-lg is-invalid'
+                              : 'form-control form-control-lg'
+                          }
+                          name='endDate'
+                          value={this.state.endDate}
+                          onChange={this.onChange}
+                        />
+                        {errors.endDate && (
+                          <div className='invalid-feedback'>
+                            {errors.endDate}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className='col-md-6'>
+                      {' '}
+                      <div className='form-group mt-3'>
+                        <label class='required-field' for='email'>
+                          End Time
+                        </label>
+                        <select
+                          name='endTime'
+                          value={this.state.endTime}
+                          class='custom-select my-1 mr-sm-2'
+                          id='inlineFormCustomSelectPref'
+                          onChange={this.onChange}
+                        >
+                          <option selected>09:00</option>
+                          <option>10:00</option>
+                          <option>11:00</option>
+                          <option>12:00</option>
+                          <option>13:00</option>
+                          <option>14:00</option>
+                          <option>15:00</option>
+                          <option>16:00</option>
+                          <option>17:00</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                   <input
                     type='submit'
@@ -202,7 +230,7 @@ class PlanMentorship extends Component {
 
                                       <span class='col-md-4 my-3 my-sm-0 color--text'>
                                         <i class='fas fa-calendar-alt'></i>{' '}
-                                        {phase.endDate}
+                                        {phase.endDate + ' ' + phase.endTime}
                                       </span>
 
                                       <h3>
