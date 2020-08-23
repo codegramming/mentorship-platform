@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -21,8 +22,10 @@ public class Phase {
 
     private Integer phaseId;
 
+    @NotBlank(message = "Phase name cannot be blank")
     private String name;
 
+    @NotBlank(message = "Date cannot be blank")
     private String endDate;
 
     private String endTime;
