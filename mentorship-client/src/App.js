@@ -5,13 +5,11 @@ import store from './store';
 import jwt_decode from 'jwt-decode';
 import SetToken from './security/SetToken';
 
-import SecureRoute from './security/SecureRoutes';
 import Login from './components/Authentication/Login';
 import AdminPanel from './components/AdminPanel';
 import Dashboard from './components/Dashboard';
 import MentorDetails from './components/MentorDetails';
 import Application from './components/Application';
-import Header from './components/Layout/Header';
 import OAuth2RedirectHandler from './security/OAuth2RedirectHandler';
 import { SET_CURRENT_USER } from './actions/types';
 import { logout } from './actions/securityActions';

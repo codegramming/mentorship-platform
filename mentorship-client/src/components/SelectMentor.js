@@ -60,19 +60,19 @@ class SelectMentor extends Component {
       <div>
         <Header />
         <section
-          class='section section-hero gradient-light--lean-right'
+          className='section section-hero gradient-light--lean-right'
           style={{ paddingTop: '0px', paddingBottom: '1.4rem' }}
         >
-          <div class='container'>
-            <div class='row mt-5'>
-              <div class='col-md-8'>
+          <div className='container'>
+            <div className='row mt-5'>
+              <div className='col-md-8'>
                 <Link to='/adminPanel'>
-                  <small class='text-uppercase text-muted d-inline-block mb-3'>
-                    <i class='fas fa-arrow-left'></i> Back
+                  <small className='text-uppercase text-muted d-inline-block mb-3'>
+                    <i className='fas fa-arrow-left'></i> Back
                   </small>
                 </Link>
 
-                <h1 class='mb-4'>Start Mentorship</h1>
+                <h1 className='mb-4'>Start Mentorship</h1>
 
                 <p>If you want to work with this mentor, start the process.</p>
               </div>
@@ -81,17 +81,17 @@ class SelectMentor extends Component {
         </section>
 
         <section
-          class='section section-job-description gradient-light--upright'
+          className='section section-job-description gradient-light--upright'
           style={{ paddingTop: '2rem' }}
         >
-          <div class='container'>
-            <div class='row'>
-              <div class='col-md-7 order-md-1'>
-                <h3 class='h2 mb-4'>Who is the Mentor?</h3>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-7 order-md-1'>
+                <h3 className='h2 mb-4'>Who is the Mentor?</h3>
 
-                <p class='mb-5'>
-                  <table class='table'>
-                    <thead class='thead-light'>
+                <p className='mb-5'>
+                  <table className='table'>
+                    <thead className='thead-light'>
                       <tr>
                         <th scope='col'>Display Name</th>
                         <th scope='col'>Username</th>
@@ -108,14 +108,16 @@ class SelectMentor extends Component {
                   </table>
                 </p>
 
-                <h3 class='h2 mb-4'>Mentor's Skills</h3>
+                <h3 className='h2 mb-4'>Mentor's Skills</h3>
 
-                <ul class='mb-5 list-group'>
-                  <li class='list-group-item active'>{this.state.mainTopic}</li>
-                  <li class='list-group-item'>{this.state.subTopics}</li>
+                <ul className='mb-5 list-group'>
+                  <li className='list-group-item active'>
+                    {this.state.mainTopic}
+                  </li>
+                  <li className='list-group-item'>{this.state.subTopics}</li>
                 </ul>
 
-                <h3 class='h2 mb-4'>Mentor's Thoughts</h3>
+                <h3 className='h2 mb-4'>Mentor's Thoughts</h3>
                 <p className='mb-4 font-italic' style={{ fontSize: '20px' }}>
                   {this.state.thoughts}
                 </p>
@@ -126,7 +128,7 @@ class SelectMentor extends Component {
                       <button
                         href='#0'
                         style={{ width: '20rem' }}
-                        class='btn btn-success'
+                        className='btn btn-success'
                         onClick={this.startTheProcess}
                       >
                         SELECT THE MENTOR

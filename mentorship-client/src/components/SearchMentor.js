@@ -142,17 +142,17 @@ class SearchMentor extends Component {
               <div className='col-md-12'>
                 <h1 className='display-4 text-center mt-4'>Mentors</h1>
                 <hr />
-                <form class='filter-form mt-5 mb-4'>
-                  <div class='row'>
-                    <div class='col-md-6 mb-3'>
-                      <div class='form-group'>
-                        <label for='jobPosition'>Main Skill :</label>
+                <form className='filter-form mt-5 mb-4'>
+                  <div className='row'>
+                    <div className='col-md-6 mb-3'>
+                      <div className='form-group'>
+                        <label htmlFor='jobPosition'>Main Skill :</label>
                         <span>
                           <select
                             onChange={this.handleTopicChange}
                             className='custom-select mb-3'
                           >
-                            <option selected value={0}>
+                            <option defaultValue={0}>
                               Please Select Your Main Skill
                             </option>
 
@@ -167,9 +167,9 @@ class SearchMentor extends Component {
                         </span>
                       </div>
                     </div>
-                    <div class='col-md-6 mb-3'>
-                      <div class='form-group'>
-                        <span class='multiselect-native-select'>
+                    <div className='col-md-6 mb-3'>
+                      <div className='form-group'>
+                        <span className='multiselect-native-select'>
                           <label>Side Skills</label>
                           <Multiselect
                             placeholder='Please Select Your Side Skills'
@@ -193,7 +193,7 @@ class SearchMentor extends Component {
                     <div className='col-md-6'>
                       <div className='form-group'>
                         <input
-                          class='form-control'
+                          className='form-control'
                           type='search'
                           placeholder='Search'
                           aria-label='Search'
@@ -204,20 +204,20 @@ class SearchMentor extends Component {
                     <div className='col-md-0'>
                       <div className='form-group'>
                         <button
-                          class='btn btn-success'
+                          className='btn btn-success'
                           onClick={this.onSearchSubmit}
                         >
-                          <i class='fas fa-search'></i>
+                          <i className='fas fa-search'></i>
                         </button>
                       </div>
                     </div>
                   </div>
                 </form>
 
-                <div class='job-list__wrapper mb-6'>
+                <div className='job-list__wrapper mb-6'>
                   {this.state.mentors.length === 0 ? (
                     <div
-                      class='alert alert-info text-center'
+                      className='alert alert-info text-center'
                       role='alert'
                       style={{ marginTop: 30 }}
                     >
@@ -230,31 +230,31 @@ class SearchMentor extends Component {
                           <div key={index}>
                             <Link
                               to={`/selectMentor/${application.id}`}
-                              class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                              className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                             >
-                              <div class='card-body'>
-                                <span class='row justify-content-between align-items-center'>
-                                  <span class='col-md-5 color--heading'>
-                                    <span class='badge badge-circle background--success text-white mr-6'>
+                              <div className='card-body'>
+                                <span className='row justify-content-between align-items-center'>
+                                  <span className='col-md-5 color--heading'>
+                                    <span className='badge badge-circle background--success text-white mr-6'>
                                       SE
                                     </span>{' '}
-                                    <i class='fas fa-chalkboard-teacher mr-1'></i>
+                                    <i className='fas fa-chalkboard-teacher mr-1'></i>
                                     {application.user.displayName}
                                   </span>
 
-                                  <span class='col-5 col-md-3 my-3 my-sm-0 color--text'>
-                                    <i class='fas fa-book-reader'></i>{' '}
+                                  <span className='col-5 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i className='fas fa-book-reader'></i>{' '}
                                     {application.mainTopic}
                                   </span>
 
-                                  <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
-                                    <i class='fad fa-ellipsis-h-alt'></i>{' '}
+                                  <span className='col-7 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i className='fad fa-ellipsis-h-alt'></i>{' '}
                                     {application.subTopics}
                                   </span>
 
-                                  <span class='d-none d-md-block col-1 text-center color--text'>
+                                  <span className='d-none d-md-block col-1 text-center color--text'>
                                     <small>
-                                      <i class='fas fa-chevron-right'></i>
+                                      <i className='fas fa-chevron-right'></i>
                                     </small>
                                   </span>
                                 </span>

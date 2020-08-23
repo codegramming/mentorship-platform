@@ -134,20 +134,20 @@ class Application extends Component {
                 <hr />
 
                 {Object.keys(errors).length !== 0 && (
-                  <div class='alert alert-danger' role='alert'>
+                  <div className='alert alert-danger' role='alert'>
                     Please fill out all fields.
                   </div>
                 )}
 
                 {this.state.submit === true && (
-                  <div class='alert alert-success' role='alert'>
+                  <div className='alert alert-success' role='alert'>
                     Congratulations, your application has been received. You
                     will be redirected in 3 seconds.
                   </div>
                 )}
 
                 <form onSubmit={this.onSubmit}>
-                  <label class='required-field' for='email'>
+                  <label className='required-field' htmlFor='email'>
                     Main Skill
                   </label>
                   <select
@@ -172,7 +172,7 @@ class Application extends Component {
                       {errors.mainTopic}dafdfasd
                     </div>
                   )}
-                  <label class='required-field' for='email'>
+                  <label className='required-field' htmlFor='email'>
                     Side Skills
                   </label>
                   <Multiselect
@@ -192,7 +192,7 @@ class Application extends Component {
                   />
 
                   <div className='form-group mt-3'>
-                    <label class='required-field' for='email'>
+                    <label className='required-field' htmlFor='email'>
                       Thoughts
                     </label>
                     <textarea

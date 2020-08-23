@@ -42,22 +42,22 @@ class Header extends Component {
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item active'>
             <Link className='nav-link' to='/dashboard'>
-              <i class='fas fa-home'></i> Dashboard
+              <i className='fas fa-home'></i> Dashboard
             </Link>
           </li>
           <li className='nav-item active'>
             <Link className='nav-link' to='/search'>
-              <i class='fas fa-search'></i> Search Mentor
+              <i className='fas fa-search'></i> Search Mentor
             </Link>
           </li>
           <li className='nav-item active'>
             <Link className='nav-link' to='/apply'>
-              <i class='fas fa-user-edit'></i> Become a Mentor
+              <i className='fas fa-user-edit'></i> Become a Mentor
             </Link>
           </li>
           <li className='nav-item'>
             <Link className='nav-link' to='/logout' onClick={this.logout}>
-              <i class='fas fa-sign-out-alt'></i>Logout
+              <i className='fas fa-sign-out-alt'></i>Logout
             </Link>
           </li>
         </ul>

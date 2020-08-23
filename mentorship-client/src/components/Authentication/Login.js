@@ -58,15 +58,15 @@ class Login2 extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div class='container-fluid'>
-        <div class='row min-vh-100 align-items-stretch'>
-          <div class='col-lg-7 d-none d-lg-flex justify-content-center align-items-center gradient-brand-color'>
-            <div class='w-66'>
-              <h2 class='color--white mb-5'>
+      <div className='container-fluid'>
+        <div className='row min-vh-100 align-items-stretch'>
+          <div className='col-lg-7 d-none d-lg-flex justify-content-center align-items-center gradient-brand-color'>
+            <div className='w-66'>
+              <h2 className='color--white mb-5'>
                 We help bring students and teachers together.
               </h2>
               <img
-                class='ml-4 mb-n4'
+                className='ml-4 mb-n4'
                 src='https://weboth.us/preview/fluxo-v1.0.0/html/images/image-login-chart.png'
                 srcset='images/image-login-chart@2x.png 2x'
                 alt='Fluxo Login Page'
@@ -74,28 +74,28 @@ class Login2 extends Component {
             </div>
           </div>
 
-          <div class='col-lg-5 d-flex align-items-center py-5 background--light'>
-            <div class='w-75 mx-auto overflow-hidden px-md-5 px-lg-3'>
-              <header class='mb-4'>
-                <a class='cover-page-brand' href='index.html'>
+          <div className='col-lg-5 d-flex align-items-center py-5 background--light'>
+            <div className='w-75 mx-auto overflow-hidden px-md-5 px-lg-3'>
+              <header className='mb-4'>
+                <a className='cover-page-brand' href='index.html'>
                   <img src='https://svgur.com/i/Nar.svg' alt='Mentorship' />
                 </a>
               </header>
 
-              <main class='main'>
-                <h3 class='mb-2'>Login to your account</h3>
+              <main className='main'>
+                <h3 className='mb-2'>Login to your account</h3>
 
-                <form class='login-form' onSubmit={this.onSubmit}>
-                  <div class='row'>
-                    <div class='col-sm-12 mb-2'>
-                      <div class='form-group'>
+                <form className='login-form' onSubmit={this.onSubmit}>
+                  <div className='row'>
+                    <div className='col-sm-12 mb-2'>
+                      <div className='form-group'>
                         {errors.message && (
-                          <div class='alert alert-danger' role='alert'>
+                          <div className='alert alert-danger' role='alert'>
                             The username or password is incorrect please try
                             again.
                           </div>
                         )}
-                        <label for='email'>Username</label>
+                        <label htmlFor='email'>Username</label>
                         <input
                           type='text'
                           className={
@@ -117,9 +117,9 @@ class Login2 extends Component {
                       </div>
                     </div>
 
-                    <div class='col-sm-12 mb-2'>
-                      <div class='form-group'>
-                        <label for='email'>Password</label>
+                    <div className='col-sm-12 mb-2'>
+                      <div className='form-group'>
+                        <label htmlFor='email'>Password</label>
                         <input
                           type='password'
                           className={
@@ -141,38 +141,38 @@ class Login2 extends Component {
                       </div>
                     </div>
 
-                    <div class='col-sm-12 mb-2'>
+                    <div className='col-sm-12 mb-2'>
                       <button
                         type='submit'
                         name='submit'
-                        class='btn btn-primary w-100'
+                        className='btn btn-primary w-100'
                       >
                         Log In
                       </button>
                     </div>
 
-                    <div class='col-sm-12 mb-2 text-center position-relative pt-2 pb-3 px-0'>
+                    <div className='col-sm-12 mb-2 text-center position-relative pt-2 pb-3 px-0'>
                       <hr
-                        class='mw-100 position-absolute z-index-100'
+                        className='mw-100 position-absolute z-index-100'
                         style={{ width: 'calc(100%-30px)', marginLeft: '15px' }}
                       />
-                      <small class='px-3 background--light position-relative z-index-105'>
+                      <small className='px-3 background--light position-relative z-index-105'>
                         Or log in with:
                       </small>
                     </div>
 
                     <div className='col-sm-3'></div>
-                    <div class='col-sm-6 mb-2'>
+                    <div className='col-sm-6 mb-2'>
                       <a
                         href={GOOGLE_AUTH_URL}
-                        class='btn background--white border w-100 px-2'
+                        className='btn background--white border w-100 px-2'
                       >
-                        <figure class='d-inline-block mr-1 mb-0'>
+                        <figure className='d-inline-block mr-1 mb-0'>
                           <svg
                             viewBox='0 0 48 48'
                             width='16'
                             height='16'
-                            class='google-icon display-block'
+                            className='google-icon display-block'
                             data-reactid='93'
                           >
                             <defs data-reactid='94'>
@@ -221,7 +221,7 @@ class Login2 extends Component {
                 </form>
               </main>
 
-              <footer class='mt-6'>
+              <footer className='mt-6'>
                 <small>©2020 - Tayfur Unal. All rights reserved.</small>
               </footer>
             </div>

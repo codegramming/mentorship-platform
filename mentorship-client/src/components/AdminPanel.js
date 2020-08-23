@@ -40,10 +40,10 @@ class AdminPanel extends Component {
                   Pending Mentor Applications
                 </h1>
                 <hr />
-                <div class='job-list__wrapper mb-6'>
+                <div className='job-list__wrapper mb-6'>
                   {this.state.applications.length === 0 ? (
                     <div
-                      class='alert alert-info text-center'
+                      className='alert alert-info text-center'
                       role='alert'
                       style={{ marginTop: 30 }}
                     >
@@ -56,31 +56,31 @@ class AdminPanel extends Component {
                           <div key={index}>
                             <Link
                               to={`/mentorDetails/${application.id}`}
-                              class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                              className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                             >
-                              <div class='card-body'>
-                                <span class='row justify-content-between align-items-center'>
-                                  <span class='col-md-5 color--heading'>
-                                    <span class='badge badge-circle background--success text-white mr-6'>
+                              <div className='card-body'>
+                                <span className='row justify-content-between align-items-center'>
+                                  <span className='col-md-5 color--heading'>
+                                    <span className='badge badge-circle background--success text-white mr-6'>
                                       SE
                                     </span>{' '}
-                                    <i class='fas fa-chalkboard-teacher mr-1'></i>
+                                    <i className='fas fa-chalkboard-teacher mr-1'></i>
                                     {application.user.displayName}
                                   </span>
 
-                                  <span class='col-5 col-md-3 my-3 my-sm-0 color--text'>
-                                    <i class='fas fa-book-reader'></i>{' '}
+                                  <span className='col-5 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i className='fas fa-book-reader'></i>{' '}
                                     {application.mainTopic}
                                   </span>
 
-                                  <span class='col-7 col-md-3 my-3 my-sm-0 color--text'>
-                                    <i class='fad fa-ellipsis-h-alt'></i>{' '}
+                                  <span className='col-7 col-md-3 my-3 my-sm-0 color--text'>
+                                    <i className='fad fa-ellipsis-h-alt'></i>{' '}
                                     {application.subTopics}
                                   </span>
 
-                                  <span class='d-none d-md-block col-1 text-center color--text'>
+                                  <span className='d-none d-md-block col-1 text-center color--text'>
                                     <small>
-                                      <i class='fas fa-chevron-right'></i>
+                                      <i className='fas fa-chevron-right'></i>
                                     </small>
                                   </span>
                                 </span>

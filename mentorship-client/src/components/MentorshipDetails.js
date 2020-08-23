@@ -140,19 +140,19 @@ class SelectMentor extends Component {
       <>
         <Header />
         <section
-          class='section section-hero gradient-light--lean-right'
+          className='section section-hero gradient-light--lean-right'
           style={{ paddingTop: '0px', paddingBottom: '1.4rem' }}
         >
-          <div class='container'>
-            <div class='row mt-5'>
-              <div class='col-md-8'>
+          <div className='container'>
+            <div className='row mt-5'>
+              <div className='col-md-8'>
                 <Link to='/'>
-                  <small class='text-uppercase text-muted d-inline-block mb-3'>
-                    <i class='fas fa-arrow-left'></i> Back
+                  <small className='text-uppercase text-muted d-inline-block mb-3'>
+                    <i className='fas fa-arrow-left'></i> Back
                   </small>
                 </Link>
 
-                <h1 class='mb-4'>Mentorship Details</h1>
+                <h1 className='mb-4'>Mentorship Details</h1>
 
                 <p>If you want to work with this mentor, start the process.</p>
               </div>
@@ -161,13 +161,13 @@ class SelectMentor extends Component {
         </section>
 
         <section
-          class='section section-job-description gradient-light--upright'
+          className='section section-job-description gradient-light--upright'
           style={{ paddingTop: '2rem' }}
         >
-          <div class='container'>
-            <div class='row'>
+          <div className='container'>
+            <div className='row'>
               <div className='col-md-6'>
-                <table class='table table-hover'>
+                <table className='table table-hover'>
                   <thead>
                     <tr></tr>
                   </thead>
@@ -197,11 +197,11 @@ class SelectMentor extends Component {
           <div className='container'>
             <div className='row'>
               <div className='col-md-10'>
-                <div class='job-list__wrapper mb-4'>
-                  <h3 class='h2 mb-4'>Phase List</h3>
+                <div className='job-list__wrapper mb-4'>
+                  <h3 className='h2 mb-4'>Phase List</h3>
                   {this.state.phases.length === 0 ? (
                     <div
-                      class='alert alert-info text-center'
+                      className='alert alert-info text-center'
                       role='alert'
                       style={{ marginTop: 30 }}
                     >
@@ -211,28 +211,28 @@ class SelectMentor extends Component {
                     this.state.phases.map((phase, index) => {
                       return (
                         <>
-                          <div className='row'>
+                          <div className='row' key={index}>
                             <div className='col-md-12'>
                               <div key={index}>
-                                <div class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'>
-                                  <div class='card-body'>
-                                    <span class='row justify-content-between align-items-center'>
-                                      <span class='col-md-1 color--heading'>
-                                        <span class='badge badge-circle background--success text-white'>
+                                <div className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'>
+                                  <div className='card-body'>
+                                    <span className='row justify-content-between align-items-center'>
+                                      <span className='col-md-1 color--heading'>
+                                        <span className='badge badge-circle background--success text-white'>
                                           {phase.phaseId}
                                         </span>{' '}
                                       </span>
-                                      <span class='col-md-5  my-sm-0 color--text'>
-                                        <i class='fas fa-book-reader'></i>{' '}
+                                      <span className='col-md-5  my-sm-0 color--text'>
+                                        <i className='fas fa-book-reader'></i>{' '}
                                         {phase.name}
                                       </span>
-                                      <span class='col-md-3 my-3 my-sm-0 color--text'>
-                                        <i class='fas fa-calendar-alt'></i>{' '}
-                                        {phase.endDate + ' ' + phase.endTime}
+                                      <span className='col-md-3 my-3 my-sm-0 color--text'>
+                                        <i className='fas fa-calendar-alt'></i>{' '}
+                                        {phase.endTime}
                                       </span>
                                       {phase.status === 'NOT_ACTIVE' && (
                                         <div className='col-md-2 mr-2 text-danger'>
-                                          <i class='far fa-clock'></i> Not
+                                          <i className='far fa-clock'></i> Not
                                           Active
                                         </div>
                                       )}
@@ -249,7 +249,8 @@ class SelectMentor extends Component {
 
                                       {phase.status === 'COMPLETED' && (
                                         <div className='col-md-2 mr-2 text-success'>
-                                          <i class='far fa-check'></i> Completed
+                                          <i className='far fa-check'></i>{' '}
+                                          Completed
                                         </div>
                                       )}
                                     </span>
@@ -259,27 +260,27 @@ class SelectMentor extends Component {
                                   {phase.assessmentOfMentor && (
                                     <div className='col-md-5'>
                                       {' '}
-                                      <div class='swiper-slide testimony__card p-3'>
-                                        <blockquote class='blockquote shadow'>
-                                          <footer class='blockquote-footer d-flex align-items-center'>
-                                            <div class='testimony__info d-inline-block'>
-                                              <span class='info-name d-block'>
+                                      <div className='swiper-slide testimony__card p-3'>
+                                        <blockquote className='blockquote shadow'>
+                                          <footer className='blockquote-footer d-flex align-items-center'>
+                                            <div className='testimony__info d-inline-block'>
+                                              <span className='info-name d-block'>
                                                 Mentor
                                               </span>
-                                              <span class='info-company d-block'>
+                                              <span className='info-company d-block'>
                                                 {this.state.mentorDisplayName}
                                               </span>
                                             </div>
                                           </footer>
-                                          <p class='ml-3'>
+                                          <p className='ml-3'>
                                             {phase.assessmentOfMentor}
                                           </p>
-                                          <span class='rating text-warning d-block mt-1'>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
+                                          <span className='rating text-warning d-block mt-1'>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
                                           </span>
                                         </blockquote>
                                       </div>
@@ -288,27 +289,27 @@ class SelectMentor extends Component {
                                   {phase.assessmentOfMentee && (
                                     <div className='col-md-5'>
                                       {' '}
-                                      <div class='swiper-slide testimony__card p-3'>
-                                        <blockquote class='blockquote shadow'>
-                                          <footer class='blockquote-footer d-flex align-items-center'>
-                                            <div class='testimony__info d-inline-block'>
-                                              <span class='info-name d-block'>
+                                      <div className='swiper-slide testimony__card p-3'>
+                                        <blockquote className='blockquote shadow'>
+                                          <footer className='blockquote-footer d-flex align-items-center'>
+                                            <div className='testimony__info d-inline-block'>
+                                              <span className='info-name d-block'>
                                                 Mentee
                                               </span>
-                                              <span class='info-company d-block'>
+                                              <span className='info-company d-block'>
                                                 {this.state.menteeDisplayName}
                                               </span>
                                             </div>
                                           </footer>
-                                          <p class='ml-3'>
+                                          <p className='ml-3'>
                                             {phase.assessmentOfMentee}
                                           </p>
-                                          <span class='rating text-warning d-block mt-1'>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
-                                            <i class='fas fa-star'></i>
+                                          <span className='rating text-warning d-block mt-1'>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
+                                            <i className='fas fa-star'></i>
                                           </span>
                                         </blockquote>
                                       </div>
@@ -333,7 +334,7 @@ class SelectMentor extends Component {
                           <button
                             href='#0'
                             style={{ width: '20rem' }}
-                            class='btn btn-success'
+                            className='btn btn-success'
                           >
                             PLAN THE MENTORSHIP
                           </button>
@@ -345,7 +346,7 @@ class SelectMentor extends Component {
                           <button
                             href='#0'
                             style={{ width: '20rem' }}
-                            class='btn btn-success'
+                            className='btn btn-success'
                             onClick={this.startMentorship}
                           >
                             START THE MENTORSHIP

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Header from './Layout/Header';
 
 import axios from 'axios';
@@ -69,13 +68,13 @@ class CompletePhase extends Component {
                 <hr />
 
                 {Object.keys(errors).length !== 0 && (
-                  <div class='alert alert-danger' role='alert'>
+                  <div className='alert alert-danger' role='alert'>
                     Please fill out all fields.
                   </div>
                 )}
 
                 {this.state.submit === true && (
-                  <div class='alert alert-success' role='alert'>
+                  <div className='alert alert-success' role='alert'>
                     Congratulations, your application has been received. You
                     will be redirected in 3 seconds.
                   </div>
@@ -83,7 +82,7 @@ class CompletePhase extends Component {
 
                 <form onSubmit={this.onSubmit}>
                   <div className='form-group mt-3'>
-                    <label class='required-field' for='email'>
+                    <label className='required-field' htmlFor='email'>
                       Assessment
                     </label>
                     <input
@@ -105,13 +104,13 @@ class CompletePhase extends Component {
                     )}
                   </div>
                   <div className='form-group mt-3'>
-                    <label class='required-field' for='email'>
+                    <label className='required-field' htmlFor='email'>
                       Rating
                     </label>
                     <select
                       name='rating'
                       value={this.state.rating}
-                      class='custom-select my-1 mr-sm-2'
+                      className='custom-select my-1 mr-sm-2'
                       id='inlineFormCustomSelectPref'
                       onChange={this.onChange}
                     >

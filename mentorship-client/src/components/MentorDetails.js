@@ -68,10 +68,10 @@ class MentorDetails extends Component {
 
   render() {
     //TODO
-    //   <ul class='social-icons mb-0'>
+    //   <ul className='social-icons mb-0'>
     //   <li>
     //     <a href='#0'>
-    //       <i class='fab fa-github color--white'></i>
+    //       <i className='fab fa-github color--white'></i>
     //     </a>
     //   </li>
     // </ul>
@@ -79,19 +79,19 @@ class MentorDetails extends Component {
       <div>
         <Header />
         <section
-          class='section section-hero gradient-light--lean-right'
+          className='section section-hero gradient-light--lean-right'
           style={{ paddingTop: '2rem' }}
         >
-          <div class='container'>
-            <div class='row mt-5'>
-              <div class='col-md-8'>
+          <div className='container'>
+            <div className='row mt-5'>
+              <div className='col-md-8'>
                 <Link to='/adminPanel'>
-                  <small class='text-uppercase text-muted d-inline-block mb-3'>
-                    <i class='fas fa-arrow-left'></i> Back
+                  <small className='text-uppercase text-muted d-inline-block mb-3'>
+                    <i className='fas fa-arrow-left'></i> Back
                   </small>
                 </Link>
 
-                <h1 class='mb-4'>Pending Mentor Application</h1>
+                <h1 className='mb-4'>Pending Mentor Application</h1>
 
                 <p>Please accept or deny the pending application.</p>
               </div>
@@ -100,17 +100,17 @@ class MentorDetails extends Component {
         </section>
 
         <section
-          class='section section-job-description gradient-light--upright'
+          className='section section-job-description gradient-light--upright'
           style={{ paddingTop: '2rem' }}
         >
-          <div class='container'>
-            <div class='row'>
-              <div class='col-md-7 order-md-1'>
-                <h3 class='h2 mb-4'>Who is?</h3>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-7 order-md-1'>
+                <h3 className='h2 mb-4'>Who is?</h3>
 
-                <p class='mb-5'>
-                  <table class='table'>
-                    <thead class='thead-light'>
+                <p className='mb-5'>
+                  <table className='table'>
+                    <thead className='thead-light'>
                       <tr>
                         <th scope='col'>Display Name</th>
                         <th scope='col'>Username</th>
@@ -127,14 +127,16 @@ class MentorDetails extends Component {
                   </table>
                 </p>
 
-                <h3 class='h2 mb-4'>Skills</h3>
+                <h3 className='h2 mb-4'>Skills</h3>
 
-                <ul class='mb-5 list-group'>
-                  <li class='list-group-item active'>{this.state.mainTopic}</li>
-                  <li class='list-group-item'>{this.state.subTopics}</li>
+                <ul className='mb-5 list-group'>
+                  <li className='list-group-item active'>
+                    {this.state.mainTopic}
+                  </li>
+                  <li className='list-group-item'>{this.state.subTopics}</li>
                 </ul>
 
-                <h3 class='h2 mb-4'>Thoughts</h3>
+                <h3 className='h2 mb-4'>Thoughts</h3>
                 <p className='mb-4 font-italic' style={{ fontSize: '20px' }}>
                   {this.state.thoughts}
                 </p>
@@ -144,7 +146,7 @@ class MentorDetails extends Component {
                     <div className='col'>
                       <button
                         href='#0'
-                        class='btn btn-danger'
+                        className='btn btn-danger'
                         onClick={this.makeNotAccepted}
                       >
                         DENY
@@ -153,7 +155,7 @@ class MentorDetails extends Component {
                     <div className='col'>
                       <button
                         href='#0'
-                        class='btn btn-success'
+                        className='btn btn-success'
                         onClick={this.makeAccepted}
                       >
                         ACCEPT

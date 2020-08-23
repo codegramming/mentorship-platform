@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './Layout/Header';
 
@@ -38,11 +38,11 @@ class MyApplication extends Component {
           <div className='row'>
             <div className='col-md-5'>
               <h1 className='display-3 text-center mt-4'>Mentors</h1>
-              <div class='post card p-0 border-0 shadow-sm'>
+              <div className='post card p-0 border-0 shadow-sm'>
                 <Link>
-                  <div class='card-body'>
-                    <div class='card-title d-inline mb-4'>
-                      <i class='fas fa-user-edit text-primary'></i>
+                  <div className='card-body'>
+                    <div className='card-title d-inline mb-4'>
+                      <i className='fas fa-user-edit text-primary'></i>
                       <h3 className='d-inline'> Mentor: </h3>
                       <h3
                         className='d-inline'
@@ -51,8 +51,8 @@ class MyApplication extends Component {
                         Tayfur
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='fas fa-book-open text-info'></i>
+                    <div className='card-title mt-3'>
+                      <i className='fas fa-book-open text-info'></i>
                       <h3 className='d-inline'> Topic: </h3>
                       <h3
                         className='d-inline'
@@ -61,8 +61,8 @@ class MyApplication extends Component {
                         Backend
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='far fa-clock text-warning'></i>
+                    <div className='card-title mt-3'>
+                      <i className='far fa-clock text-warning'></i>
                       <h3 className='d-inline'> Status: </h3>
                       <h3
                         className='d-inline'
@@ -74,11 +74,11 @@ class MyApplication extends Component {
                   </div>
                 </Link>
               </div>
-              <div class='post card p-0 border-0 shadow-sm mt-3'>
+              <div className='post card p-0 border-0 shadow-sm mt-3'>
                 <Link>
-                  <div class='card-body'>
-                    <div class='card-title d-inline mb-4'>
-                      <i class='fas fa-user-edit text-primary'></i>
+                  <div className='card-body'>
+                    <div className='card-title d-inline mb-4'>
+                      <i className='fas fa-user-edit text-primary'></i>
                       <h3 className='d-inline'> Mentor: </h3>
                       <h3
                         className='d-inline'
@@ -87,8 +87,8 @@ class MyApplication extends Component {
                         Tayfur
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='fas fa-book-open text-info'></i>
+                    <div className='card-title mt-3'>
+                      <i className='fas fa-book-open text-info'></i>
                       <h3 className='d-inline'> Topic: </h3>
                       <h3
                         className='d-inline'
@@ -97,8 +97,8 @@ class MyApplication extends Component {
                         Backend
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='far fa-clock text-warning'></i>
+                    <div className='card-title mt-3'>
+                      <i className='far fa-clock text-warning'></i>
                       <h3 className='d-inline'> Status: </h3>
                       <h3
                         className='d-inline'
@@ -114,11 +114,11 @@ class MyApplication extends Component {
             <div className='col-md-2'></div>
             <div className='col-md-5'>
               <h1 className='display-3 text-center mt-4'>Mentees</h1>
-              <div class='post card p-0 border-0 shadow-sm'>
+              <div className='post card p-0 border-0 shadow-sm'>
                 <Link>
-                  <div class='card-body'>
-                    <div class='card-title d-inline mb-4'>
-                      <i class='fas fa-user-edit text-primary'></i>
+                  <div className='card-body'>
+                    <div className='card-title d-inline mb-4'>
+                      <i className='fas fa-user-edit text-primary'></i>
                       <h3 className='d-inline'> Mentor: </h3>
                       <h3
                         className='d-inline'
@@ -127,8 +127,8 @@ class MyApplication extends Component {
                         Tayfur
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='fas fa-book-open text-info'></i>
+                    <div className='card-title mt-3'>
+                      <i className='fas fa-book-open text-info'></i>
                       <h3 className='d-inline'> Topic: </h3>
                       <h3
                         className='d-inline'
@@ -137,8 +137,8 @@ class MyApplication extends Component {
                         Backend
                       </h3>
                     </div>
-                    <div class='card-title mt-3'>
-                      <i class='far fa-clock text-warning'></i>
+                    <div className='card-title mt-3'>
+                      <i className='far fa-clock text-warning'></i>
                       <h3 className='d-inline'> Status: </h3>
                       <h3
                         className='d-inline'
