@@ -1,16 +1,17 @@
 package com.tayfurunal.mentorship.payload;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
 public class ApiResponse {
-    @NonNull
+    @NotBlank
     private final boolean success;
 
-    @NonNull
+    @NotBlank
     private final String message;
 }
 
