@@ -15,9 +15,11 @@ class PlanMentorship extends Component {
       phases: [],
       newPhase: {},
       name: '',
-      endDate: '',
-      endTime: '09:00',
-      success: false,
+      endDate: new Date().toISOString().slice(0, 10),
+      endTime: '23:00',
+      mentorEmail: '',
+      menteeEmail: '',
+      success: true,
       errors: {},
     };
   }
@@ -35,7 +37,11 @@ class PlanMentorship extends Component {
 
   getPhases = async (id) => {
     axios.get(`http://localhost:8080/api/mentorships/${id}`).then((res) => {
-      this.setState({ phases: res.data.phases });
+      this.setState({
+        phases: res.data.phases,
+        mentorEmail: res.data.mentor.user.email,
+        menteeEmail: res.data.mentee.user.email,
+      });
     });
   };
 
@@ -46,19 +52,32 @@ class PlanMentorship extends Component {
   }
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value, errors: {} });
+    this.setState({
+      [e.target.name]: e.target.value,
+      errors: {},
+      success: true,
+    });
   };
 
   onSubmit = async (e) => {
     e.preventDefault();
     phaseId++;
-    const newPhase = {
-      phaseId: phaseId,
-      name: this.state.name,
-      endDate: this.state.endDate,
-      endTime: this.state.endTime,
-    };
-    this.setState({ phases: [...this.state.phases, newPhase] });
+    if (this.state.endDate !== '' && this.state.name !== '') {
+      const customEndDate = `${this.state.endDate}T${this.state.endTime}:00`;
+      const customEndTime = `${this.state.endDate} ${this.state.endTime}`;
+      const newPhase = {
+        phaseId: phaseId,
+        name: this.state.name,
+        endDate: customEndDate,
+        endTime: customEndTime,
+      };
+      this.setState({ phases: [...this.state.phases, newPhase], errors: '' });
+    } else {
+      const dateError = {
+        clientError: 'All fields are required',
+      };
+      this.setState({ errors: dateError });
+    }
   };
 
   handleDelete = (item) => {
@@ -75,14 +94,48 @@ class PlanMentorship extends Component {
     e.preventDefault();
     const { id } = this.props.match.params;
     const phases = this.state.phases;
+
     for (let i = 0; i < phases.length; i++) {
-      await axios.post(
-        `http://localhost:8080/api/mentorships/addPhase/${id}`,
-        phases[i]
-      );
+      await axios
+        .post(`http://localhost:8080/api/scheduleEmail`, {
+          email: this.state.mentorEmail,
+          subject: 'Notification',
+          body: 'The phase you have received will be completed within 1 hour.',
+          dateTime: phases[i].endDate,
+          timeZone: 'Turkey',
+        })
+        .catch((error) => {
+          this.setState({
+            errors: error.response.data.message,
+            success: false,
+          });
+        });
+
+      await axios
+        .post(`http://localhost:8080/api/scheduleEmail`, {
+          email: this.state.menteeEmail,
+          subject: 'Notification',
+          body: 'The phase you have received will be completed within 1 hour.',
+          dateTime: phases[i].endDate,
+          timeZone: 'Turkey',
+        })
+        .then(async () => {
+          await axios.post(
+            `http://localhost:8080/api/mentorships/addPhase/${id}`,
+            phases[i]
+          );
+        })
+        .catch((error) => {
+          this.setState({
+            errors: error.response.data.validationErrors,
+            success: false,
+          });
+        });
     }
 
-    this.props.history.push(`/mentorshipDetails/${id}`);
+    if (this.state.success) {
+      this.props.history.push(`/mentorshipDetails/${id}`);
+    }
   };
 
   render() {
@@ -101,13 +154,15 @@ class PlanMentorship extends Component {
                 <hr />
 
                 {Object.keys(errors).length !== 0 && (
-                  <div class='alert alert-danger' role='alert'>
-                    Please fill out all fields.
+                  <div className='alert alert-danger' role='alert'>
+                    {errors.name}
+                    {errors.date}
+                    {errors.clientError}
                   </div>
                 )}
 
                 {this.state.submit === true && (
-                  <div class='alert alert-success' role='alert'>
+                  <div className='alert alert-success' role='alert'>
                     Congratulations, your application has been received. You
                     will be redirected in 3 seconds.
                   </div>
@@ -115,7 +170,7 @@ class PlanMentorship extends Component {
 
                 <form onSubmit={this.onSubmit}>
                   <div className='form-group mt-3'>
-                    <label class='required-field' for='email'>
+                    <label className='required-field' htmlFor='email'>
                       Phase Name
                     </label>
                     <input
@@ -138,7 +193,7 @@ class PlanMentorship extends Component {
                     <div className='col-md-6'>
                       {' '}
                       <div className='form-group mt-3'>
-                        <label class='required-field' for='email'>
+                        <label className='required-field' htmlFor='email'>
                           End Date
                         </label>
                         <input
@@ -152,35 +207,56 @@ class PlanMentorship extends Component {
                           value={this.state.endDate}
                           onChange={this.onChange}
                         />
-                        {errors.endDate && (
-                          <div className='invalid-feedback'>
-                            {errors.endDate}
-                          </div>
+                        {errors.date && (
+                          <div className='invalid-feedback'>{errors.date}</div>
                         )}
                       </div>
                     </div>
                     <div className='col-md-6'>
                       {' '}
                       <div className='form-group mt-3'>
-                        <label class='required-field' for='email'>
+                        <label className='required-field' htmlFor='email'>
                           End Time
                         </label>
                         <select
                           name='endTime'
                           value={this.state.endTime}
-                          class='custom-select my-1 mr-sm-2'
+                          className='custom-select my-1 mr-sm-2'
                           id='inlineFormCustomSelectPref'
                           onChange={this.onChange}
+                          placeholder='sd'
                         >
-                          <option selected>09:00</option>
+                          <option>09:00</option>
+                          <option>09:30</option>
                           <option>10:00</option>
+                          <option>10:30</option>
                           <option>11:00</option>
+                          <option>11:30</option>
                           <option>12:00</option>
+                          <option>12:12</option>
+                          <option>12:30</option>
                           <option>13:00</option>
+                          <option>13:30</option>
                           <option>14:00</option>
+                          <option>14:30</option>
                           <option>15:00</option>
+                          <option>15:30</option>
                           <option>16:00</option>
+                          <option>16:30</option>
                           <option>17:00</option>
+                          <option>17:30</option>
+                          <option>18:00</option>
+                          <option>18:30</option>
+                          <option>19:00</option>
+                          <option>19:30</option>
+                          <option>20:00</option>
+                          <option>20:30</option>
+                          <option>21:00</option>
+                          <option>21:30</option>
+                          <option>22:00</option>
+                          <option>22:30</option>
+                          <option>23:00</option>
+                          <option>23:30</option>
                         </select>
                       </div>
                     </div>
@@ -198,10 +274,10 @@ class PlanMentorship extends Component {
                     <h1 className='display-4 text-center mt-4'>Phases</h1>
                     <hr />
 
-                    <div class='job-list__wrapper mb-4'>
+                    <div className='job-list__wrapper mb-4'>
                       {this.state.phases.length === 0 ? (
                         <div
-                          class='alert alert-info text-center'
+                          className='alert alert-info text-center'
                           role='alert'
                           style={{ marginTop: 30 }}
                         >
@@ -214,29 +290,29 @@ class PlanMentorship extends Component {
                               <div key={index}>
                                 <Link
                                   onClick={() => this.handleDelete(phase)}
-                                  class='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                                  className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                                 >
-                                  <div class='card-body'>
-                                    <span class='row justify-content-between align-items-center'>
-                                      <span class='col-md-2 color--heading'>
-                                        <span class='badge badge-circle background--success text-white mr-6'>
+                                  <div className='card-body'>
+                                    <span className='row justify-content-between align-items-center'>
+                                      <span className='col-md-1 color--heading'>
+                                        <span className='badge badge-circle background--success text-white mr-6'>
                                           {phase.phaseId}
                                         </span>{' '}
                                       </span>
-                                      <span class='col-md-5 my-3 my-sm-0 color--text'>
-                                        <i class='fas fa-book-reader'></i>{' '}
+                                      <span className='col-md-5 my-3 my-sm-0 color--text'>
+                                        <i className='fas fa-book-reader'></i>{' '}
                                         {phase.name}
                                       </span>
 
-                                      <span class='col-md-4 my-3 my-sm-0 color--text'>
-                                        <i class='fas fa-calendar-alt'></i>{' '}
-                                        {phase.endDate + ' ' + phase.endTime}
+                                      <span className='col-md-4 my-3 my-sm-0 color--text'>
+                                        <i className='fas fa-calendar-alt'></i>{' '}
+                                        {phase.endTime}
                                       </span>
 
                                       <h3>
                                         {' '}
-                                        <span class='d-none d-md-block col-1 text-center text-danger'>
-                                          <i class='fa fa-trash'></i>
+                                        <span className='d-none d-md-block col-1 text-center text-danger'>
+                                          <i className='fa fa-trash'></i>
                                         </span>
                                       </h3>
                                     </span>
