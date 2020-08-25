@@ -18,6 +18,7 @@ import SelectMentor from './components/SelectMentor';
 import MentorshipDetails from './components/MentorshipDetails';
 import PlanMentorship from './components/PlanMentorship';
 import CompletePhase from './components/CompletePhase';
+import EditTopic from './components/EditTopic';
 
 const accessToken = localStorage.accessToken;
 const roles = [];
@@ -50,6 +51,11 @@ function App() {
               exact
               path='/adminPanel'
               component={(props) => <AdminPanel {...props} />}
+            />
+            <Route
+              exact
+              path='/editTopic'
+              component={(props) => <EditTopic {...props} />}
             />
             <Route
               exact
@@ -97,16 +103,6 @@ function App() {
               component={(props) => <OAuth2RedirectHandler {...props} />}
             />
           </Switch>
-
-          {/* <Switch>
-            <SecureRoute exact path='/adminPanel' component={AdminPanel} />
-            <SecureRoute exact path='/dashboard' component={Dashboard} />
-            <SecureRoute
-              exact
-              path='/application/:id'
-              component={Application}
-            /> 
-          </Switch> */}
         </div>
       </Router>
     </Provider>
