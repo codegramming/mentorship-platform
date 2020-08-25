@@ -35,10 +35,10 @@ services:
     networks:
       - elastic
 
-  orb-server:
+  server:
     build:
       context: mentorship-backend
-    container_name: orb-server
+    container_name: server
     environment:
       POSTGRES_HOST: db
     ports:
@@ -50,17 +50,17 @@ services:
       - backend
       - frontend
 
-  orb-client:
+  client:
     build:
       context: mentorship-client
       args:
         REACT_APP_API_BASE_URL: http://127.0.0.1:8080
-    container_name: orb-client
+    container_name: client
     ports:
       - 3000:80
     restart: always
     depends_on:
-      - orb-server
+      - server
     networks:
       - frontend
 
