@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     Topic getById(Long id);
+
+    Topic getByTitle(String title);
+
+    Topic getBySubTitle(String sub);
 }
