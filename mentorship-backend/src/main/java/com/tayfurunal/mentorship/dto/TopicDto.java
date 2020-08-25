@@ -13,6 +13,6 @@ public class TopicDto {
     @ApiModelProperty(required = true)
     private String title;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = false)
     private String subTitle;
 }
