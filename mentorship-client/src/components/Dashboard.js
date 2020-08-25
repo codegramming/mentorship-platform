@@ -9,7 +9,8 @@ class MyApplication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mentorships: [],
+      mentors: [],
+      mentees: [],
     };
   }
 
@@ -18,7 +19,8 @@ class MyApplication extends Component {
       'http://localhost:8080/api/mentorships/me'
     );
     this.setState({
-      mentorships: mentorships.data,
+      mentors: mentorships.data.mentors,
+      mentees: mentorships.data.mentees,
     });
   };
 
@@ -36,119 +38,122 @@ class MyApplication extends Component {
         <Header />
         <div className='container'>
           <div className='row'>
-            <div className='col-md-5'>
-              <h1 className='display-3 text-center mt-4'>Mentors</h1>
-              <div className='post card p-0 border-0 shadow-sm'>
-                <Link>
-                  <div className='card-body'>
-                    <div className='card-title d-inline mb-4'>
-                      <i className='fas fa-user-edit text-primary'></i>
-                      <h3 className='d-inline'> Mentor: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Tayfur
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='fas fa-book-open text-info'></i>
-                      <h3 className='d-inline'> Topic: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Backend
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='far fa-clock text-warning'></i>
-                      <h3 className='d-inline'> Status: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Completed
-                      </h3>
-                    </div>
+            <div className='col-md-12'>
+              <h1 className='display-3 text-center mt-4'>My Mentorships</h1>
+              <hr />
+              <h3 className='display-4 text-center mt-4'>Mentor</h3>
+
+              <div className='job-list__wrapper mb-6'>
+                {this.state.mentors.length === 0 ? (
+                  <div
+                    className='alert alert-info text-center'
+                    role='alert'
+                    style={{ marginTop: 30 }}
+                  >
+                    <h3>NO ANY MENTOR RELATION</h3>
                   </div>
-                </Link>
+                ) : (
+                  this.state.mentors.map((mentor, index) => {
+                    return (
+                      <>
+                        <div key={index}>
+                          <Link
+                            to={`/selectMentor/${mentor.id}`}
+                            className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                          >
+                            <div className='card-body'>
+                              <span className='row justify-content-between align-items-center'>
+                                <span className='col-md-3 color--heading'>
+                                  <span className='badge badge-circle background--success text-white mr-6'>
+                                    SE
+                                  </span>{' '}
+                                  <i className='fas fa-chalkboard-teacher mr-1'></i>
+                                  {mentor.mentee.user.displayName}
+                                </span>
+
+                                <span className='col-md-4 my-3 my-sm-0 color--text'>
+                                  <i className='fas fa-book-reader'></i>{' '}
+                                  {mentor.mentor.mainTopic}(
+                                  {mentor.mentor.subTopics})
+                                </span>
+
+                                <span className='col-md-2 my-3 my-sm-0 color--text'>
+                                  <i className='fad fa-clock'></i>{' '}
+                                  {mentor.status}
+                                </span>
+
+                                <span className='d-none d-md-block col-1 text-center color--text'>
+                                  <small>
+                                    <i className='fas fa-chevron-right'></i>
+                                  </small>
+                                </span>
+                              </span>
+                            </div>
+                          </Link>
+                        </div>
+                      </>
+                    );
+                  })
+                )}
               </div>
-              <div className='post card p-0 border-0 shadow-sm mt-3'>
-                <Link>
-                  <div className='card-body'>
-                    <div className='card-title d-inline mb-4'>
-                      <i className='fas fa-user-edit text-primary'></i>
-                      <h3 className='d-inline'> Mentor: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Tayfur
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='fas fa-book-open text-info'></i>
-                      <h3 className='d-inline'> Topic: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Backend
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='far fa-clock text-warning'></i>
-                      <h3 className='d-inline'> Status: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Completed
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+              <hr />
             </div>
-            <div className='col-md-2'></div>
-            <div className='col-md-5'>
-              <h1 className='display-3 text-center mt-4'>Mentees</h1>
-              <div className='post card p-0 border-0 shadow-sm'>
-                <Link>
-                  <div className='card-body'>
-                    <div className='card-title d-inline mb-4'>
-                      <i className='fas fa-user-edit text-primary'></i>
-                      <h3 className='d-inline'> Mentor: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Tayfur
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='fas fa-book-open text-info'></i>
-                      <h3 className='d-inline'> Topic: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Backend
-                      </h3>
-                    </div>
-                    <div className='card-title mt-3'>
-                      <i className='far fa-clock text-warning'></i>
-                      <h3 className='d-inline'> Status: </h3>
-                      <h3
-                        className='d-inline'
-                        style={{ fontWeight: '300', fontStyle: 'italic' }}
-                      >
-                        Completed
-                      </h3>
-                    </div>
+
+            <div className='col-md-12'>
+              <h3 className='display-4 text-center mt-4'>Mentees</h3>
+
+              <div className='job-list__wrapper mb-6'>
+                {this.state.mentees.length === 0 ? (
+                  <div
+                    className='alert alert-info text-center'
+                    role='alert'
+                    style={{ marginTop: 30 }}
+                  >
+                    <h3>NO ANY MENTEE RELATION</h3>
                   </div>
-                </Link>
+                ) : (
+                  this.state.mentees.map((mentee, index) => {
+                    return (
+                      <>
+                        <div key={index}>
+                          <Link
+                            to={`/selectMentor/${mentee.id}`}
+                            className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
+                          >
+                            <div className='card-body'>
+                              <span className='row justify-content-between align-items-center'>
+                                <span className='col-md-3 color--heading'>
+                                  <span className='badge badge-circle background--success text-white mr-6'>
+                                    SE
+                                  </span>{' '}
+                                  <i className='fas fa-chalkboard-teacher mr-1'></i>
+                                  {mentee.mentor.user.displayName}
+                                </span>
+
+                                <span className='col-md-4 my-3 my-sm-0 color--text'>
+                                  <i className='fas fa-book-reader'></i>{' '}
+                                  {mentee.mentor.mainTopic}(
+                                  {mentee.mentor.subTopics})
+                                </span>
+
+                                <span className='col-md-2 my-3 my-sm-0 color--text'>
+                                  <i className='fad fa-clock'></i>{' '}
+                                  {mentee.status}
+                                </span>
+
+                                <span className='d-none d-md-block col-1 text-center color--text'>
+                                  <small>
+                                    <i className='fas fa-chevron-right'></i>
+                                  </small>
+                                </span>
+                              </span>
+                            </div>
+                          </Link>
+                        </div>
+                      </>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
