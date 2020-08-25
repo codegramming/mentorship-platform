@@ -2,9 +2,11 @@ package com.tayfurunal.mentorship.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tayfurunal.mentorship.security.AuthProvider;
+import com.tayfurunal.mentorship.security.Role;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -60,6 +62,9 @@ public class User implements OAuth2User, UserDetails {
     @Column(name = "provider_id")
     private String providerId;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @ManyToMany
     @JsonIgnore
     @JoinTable(name = "mentor_user",
@@ -95,18 +100,9 @@ public class User implements OAuth2User, UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        /*
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-
-        List<Role> roles = roleRepository.findMemberRoles(this.member.getId());
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        authorities.add(new SimpleGrantedAuthority("test"));
-        this.setAuthorities();
-       */
-
+        authorities.add(new SimpleGrantedAuthority(this.getRole().getAuthority()));
+        this.setAuthorities(authorities);
         return authorities;
     }
 

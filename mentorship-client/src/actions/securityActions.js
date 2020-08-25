@@ -11,7 +11,7 @@ export const login = (LoginRequest) => async (dispatch) => {
     );
     let { accessToken, loginResponse } = res.data;
     accessToken = 'Bearer ' + accessToken;
-    localStorage.setItem('roles', loginResponse.authorities[0]);
+    localStorage.setItem('roles', loginResponse.authorities[0].authority);
     localStorage.setItem('accessToken', accessToken);
     SetToken(accessToken);
     const decoded = jwt_decode(accessToken);
