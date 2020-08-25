@@ -114,12 +114,6 @@ public class MentorServiceImpl implements MentorService {
             }
             ));
             mentorSearchRepository.saveAll(mentorList);*/
-            List<Mentor> searchList = mentorSearchRepository.findAll();
-            searchList.forEach((mentor -> {
-                if (!mentorList.contains(mentor)) {
-                    mentorSearchRepository.delete(mentor);
-                }
-            }));
             mentors = subs != null ? mentorSearchRepository.findBySubTopics(subs) :
                     mentorSearchRepository.findByThoughts(thoughts);
         }
