@@ -16,6 +16,9 @@ class SelectMentor extends Component {
       username: '',
       displayName: '',
       email: '',
+      currentUser: '',
+      isMentor: false,
+      errors: {},
     };
   }
 
@@ -43,6 +46,24 @@ class SelectMentor extends Component {
       .then((res) => {
         const mentorshipId = res.data.id;
         this.props.history.push(`/mentorshipDetails/${mentorshipId}`);
+      })
+      .catch((error) => {
+        this.setState({
+          errors: error.response.data.validationErrors,
+        });
+      });
+  };
+
+  getUser = async () => {
+    await axios
+      .get('http://localhost:8080/api/auth/user/me')
+      .then((res) => {
+        this.setState({ currentUser: res.data.username });
+      })
+      .then(() => {
+        if (this.state.currentUser === this.state.username) {
+          this.setState({ isMentor: true });
+        }
       });
   };
 
@@ -51,7 +72,9 @@ class SelectMentor extends Component {
       this.props.history.push('/');
     } else {
       const { id } = this.props.match.params;
-      this.getApplication(id);
+      this.getApplication(id).then(() => {
+        this.getUser();
+      });
     }
   }
 
@@ -87,6 +110,11 @@ class SelectMentor extends Component {
           <div className='container'>
             <div className='row'>
               <div className='col-md-7 order-md-1'>
+                {Object.keys(this.state.errors).length !== 0 && (
+                  <div className='alert alert-danger' role='alert'>
+                    {this.state.errors.existMentorship}
+                  </div>
+                )}
                 <h3 className='h2 mb-4'>Who is the Mentor?</h3>
 
                 <p className='mb-5'>
@@ -130,6 +158,7 @@ class SelectMentor extends Component {
                         style={{ width: '20rem' }}
                         className='btn btn-success'
                         onClick={this.startTheProcess}
+                        disabled={this.state.isMentor}
                       >
                         SELECT THE MENTOR
                       </button>

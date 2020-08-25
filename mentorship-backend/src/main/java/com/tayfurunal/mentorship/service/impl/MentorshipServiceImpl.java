@@ -7,6 +7,7 @@ import com.tayfurunal.mentorship.domain.Phase;
 import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.dto.MentorshipDto;
 import com.tayfurunal.mentorship.exception.MentorshipNotFoundException;
+import com.tayfurunal.mentorship.payload.ApiError;
 import com.tayfurunal.mentorship.payload.PhaseRequest;
 import com.tayfurunal.mentorship.payload.UsersMentorshipsResponse;
 import com.tayfurunal.mentorship.repository.jpa.MenteeRepository;
@@ -20,8 +21,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MentorshipServiceImpl implements MentorshipService {
@@ -44,7 +48,28 @@ public class MentorshipServiceImpl implements MentorshipService {
 
     public ResponseEntity<?> createMentorship(MentorshipDto mentorshipDto, String username) {
         User user = userRepository.getByUsername(username);
+
         Mentor mentor = mentorRepository.getById(mentorshipDto.getMentorId());
+        var mentees = mentor.getMentees();
+        Mentee existMentee =
+                mentees.stream().filter(mentee -> mentee.getUser().equals(user)).findFirst().orElse(null);
+
+        if (existMentee != null) {
+            ApiError apiError = new ApiError(false, 400, "Validation Error", "/api/mentorships");
+            Map<String, String> validationErrors = new HashMap<>();
+            validationErrors.put("existMentorship", "Mentorship has already been started.");
+            apiError.setValidationErrors(validationErrors);
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        if (user.getUsername().equals(mentor.getUser().getUsername())) {
+            ApiError apiError = new ApiError(false, 400, "Validation Error", "/api/mentorships");
+            Map<String, String> validationErrors = new HashMap<>();
+            validationErrors.put("ownMentorship", "You cannot be mentor to yourself");
+            apiError.setValidationErrors(validationErrors);
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
         Mentee mentee = new Mentee();
         mentee.setMentor(mentor);
         mentee.setUser(user);
@@ -84,7 +109,7 @@ public class MentorshipServiceImpl implements MentorshipService {
         phase.setPhaseId(mentorship.getPhases().size() + 1);
         phaseRepository.save(phase);
 
-        mentorship.setNumberOfPhases(mentorship.getPhases().size());
+        mentorship.setNumberOfPhases(mentorship.getPhases().size() + 1);
         mentorship.setHasPhase(true);
         mentorshipRepository.save(mentorship);
 
@@ -118,7 +143,9 @@ public class MentorshipServiceImpl implements MentorshipService {
                 phase.setStatus(Phase.phaseStatus.COMPLETED);
             } else {
                 phase.setStatus(Phase.phaseStatus.PENDING);
-                mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+                if (mentorship.getCurrentPhase() <= mentorship.getNumberOfPhases()) {
+                    mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+                }
             }
 
             mentorship.getPhases().forEach(phase1 -> {
@@ -127,6 +154,11 @@ public class MentorshipServiceImpl implements MentorshipService {
                 }
             });
             phase.setIsMentorFinish(true);
+
+            if (phase.getPhaseId().equals(mentorship.getNumberOfPhases()) && phase.getIsMenteeFinish()) {
+                mentorship.setStatus(Mentorship.status.COMPLETED.getName());
+            }
+
             phase.setRatingOfMentor(phaseRequest.getRating());
         } else if (userDetails.equals(UserDetails.MENTEE)) {
             phase.setAssessmentOfMentee(phaseRequest.getAssessment());
@@ -135,7 +167,10 @@ public class MentorshipServiceImpl implements MentorshipService {
                 phase.setStatus(Phase.phaseStatus.COMPLETED);
             } else {
                 phase.setStatus(Phase.phaseStatus.PENDING);
-                mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+                if (mentorship.getCurrentPhase() <= mentorship.getNumberOfPhases()) {
+                    mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
+                }
+
             }
 
             mentorship.getPhases().forEach(phase1 -> {
@@ -145,7 +180,7 @@ public class MentorshipServiceImpl implements MentorshipService {
             });
             phase.setIsMenteeFinish(true);
 
-            if (phase.getPhaseId().equals(mentorship.getNumberOfPhases()) && phase.getIsComplete()) {
+            if (phase.getPhaseId().equals(mentorship.getNumberOfPhases()) && phase.getIsMentorFinish()) {
                 mentorship.setStatus(Mentorship.status.COMPLETED.getName());
             }
             phase.setRatingOfMentee(phaseRequest.getRating());
@@ -162,12 +197,12 @@ public class MentorshipServiceImpl implements MentorshipService {
         List<Mentor> mentors = mentorRepository.findAllByUser(user);
         List<Mentee> mentees = menteeRepository.findAllByUser(user);
 
-        List<Mentorship> myMentors = null;
+        List<Mentorship> myMentors = new ArrayList<>();
         for (Mentor mentor : mentors) {
             myMentors = mentorshipRepository.findAllByMentor(mentor);
         }
 
-        List<Mentorship> myMentees = null;
+        List<Mentorship> myMentees = new ArrayList<>();
         for (Mentee mentee : mentees) {
             myMentees = mentorshipRepository.findAllByMentee(mentee);
         }
