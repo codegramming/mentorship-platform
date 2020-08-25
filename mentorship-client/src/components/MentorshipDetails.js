@@ -186,8 +186,16 @@ class SelectMentor extends Component {
                     </tr>
                     <tr>
                       <th scope='row'>Status:</th>
-                      <td>{this.state.status}</td>
+                      <td>{this.state.status} </td>
                     </tr>
+                    {this.state.status !== 'Completed' ? (
+                      <tr>
+                        <th scope='row'>Active Phase:</th>
+                        <td>{this.state.currentPhase} </td>
+                      </tr>
+                    ) : (
+                      ''
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -276,11 +284,11 @@ class SelectMentor extends Component {
                                             {phase.assessmentOfMentor}
                                           </p>
                                           <span className='rating text-warning d-block mt-1'>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
+                                            {[
+                                              ...Array(phase.ratingOfMentor),
+                                            ].map((x, i) => (
+                                              <i className='fas fa-star'></i>
+                                            ))}{' '}
                                           </span>
                                         </blockquote>
                                       </div>
@@ -305,11 +313,11 @@ class SelectMentor extends Component {
                                             {phase.assessmentOfMentee}
                                           </p>
                                           <span className='rating text-warning d-block mt-1'>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
-                                            <i className='fas fa-star'></i>
+                                            {[
+                                              ...Array(phase.ratingOfMentee),
+                                            ].map((x, i) => (
+                                              <i className='fas fa-star'></i>
+                                            ))}{' '}
                                           </span>
                                         </blockquote>
                                       </div>
