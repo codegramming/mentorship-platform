@@ -62,7 +62,10 @@ class SearchMentor extends Component {
 
   handleTopicChange = async (event) => {
     event.preventDefault();
-    const userMainTopic = event.target.value;
+    let userMainTopic = event.target.value;
+    if (userMainTopic === 'Please Select Your Main Skill') {
+      userMainTopic = '';
+    }
     this.setState({ userMainTopic, pending: false, errors: {} });
 
     let subTopicIndex = this.state.mainTopics;
@@ -152,7 +155,7 @@ class SearchMentor extends Component {
                             onChange={this.handleTopicChange}
                             className='custom-select mb-3'
                           >
-                            <option defaultValue={0}>
+                            <option defaultValue={''}>
                               Please Select Your Main Skill
                             </option>
 
@@ -234,7 +237,7 @@ class SearchMentor extends Component {
                             >
                               <div className='card-body'>
                                 <span className='row justify-content-between align-items-center'>
-                                  <span className='col-md-5 color--heading'>
+                                  <span className='col-md-4 color--heading'>
                                     <span className='badge badge-circle background--success text-white mr-6'>
                                       SE
                                     </span>{' '}
@@ -242,12 +245,12 @@ class SearchMentor extends Component {
                                     {application.user.displayName}
                                   </span>
 
-                                  <span className='col-5 col-md-3 my-3 my-sm-0 color--text'>
+                                  <span className='col-md-3 my-3 my-sm-0 color--text'>
                                     <i className='fas fa-book-reader'></i>{' '}
                                     {application.mainTopic}
                                   </span>
 
-                                  <span className='col-7 col-md-3 my-3 my-sm-0 color--text'>
+                                  <span className='col-md-3 my-3 my-sm-0 color--text'>
                                     <i className='fad fa-ellipsis-h-alt'></i>{' '}
                                     {application.subTopics}
                                   </span>
