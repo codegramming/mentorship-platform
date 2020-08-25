@@ -63,7 +63,12 @@ class PlanMentorship extends Component {
     e.preventDefault();
     phaseId++;
     if (this.state.endDate !== '' && this.state.name !== '') {
-      const customEndDate = `${this.state.endDate}T${this.state.endTime}:00`;
+      const hour = this.state.endTime;
+      let parsedHour = hour.split(':');
+      let numberHour = parseInt(parsedHour[0], 10);
+      numberHour = numberHour - 1;
+      const customEndDate = `${this.state.endDate}T${numberHour}:${parsedHour[1]}:00`;
+      console.log(customEndDate);
       const customEndTime = `${this.state.endDate} ${this.state.endTime}`;
       const newPhase = {
         phaseId: phaseId,
@@ -296,7 +301,7 @@ class PlanMentorship extends Component {
                                     <span className='row justify-content-between align-items-center'>
                                       <span className='col-md-1 color--heading'>
                                         <span className='badge badge-circle background--success text-white mr-6'>
-                                          {phase.phaseId}
+                                          P
                                         </span>{' '}
                                       </span>
                                       <span className='col-md-5 my-3 my-sm-0 color--text'>
