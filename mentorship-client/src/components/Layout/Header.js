@@ -18,17 +18,17 @@ class Header extends Component {
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item active'>
             <Link className='nav-link' to='/adminPanel'>
-              Review Application
+              <i className='fas fa-home'></i> Review Application
             </Link>
           </li>
           <li className='nav-item active'>
             <Link className='nav-link' to='/editTopic'>
-              Edit Topic
+              <i className='fas fa-pen'></i> Edit Topic
             </Link>
           </li>
           <li className='nav-item'>
             <Link className='nav-link' to='/logout' onClick={this.logout}>
-              Logout
+              <i className='fas fa-sign-out-alt'></i>Logout
             </Link>
           </li>
         </ul>
