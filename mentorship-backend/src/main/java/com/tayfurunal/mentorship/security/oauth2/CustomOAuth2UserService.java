@@ -2,6 +2,7 @@ package com.tayfurunal.mentorship.security.oauth2;
 
 import com.tayfurunal.mentorship.domain.User;
 import com.tayfurunal.mentorship.exception.OAuth2AuthenticationProcessingException;
+import com.tayfurunal.mentorship.payload.ApiError;
 import com.tayfurunal.mentorship.repository.jpa.UserRepository;
 import com.tayfurunal.mentorship.security.AuthProvider;
 import com.tayfurunal.mentorship.security.Role;
@@ -18,7 +19,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +33,23 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
 
+
     @Autowired
     public CustomOAuth2UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    private boolean checkEmail(String email) {
+        List<String> emailList = new ArrayList<>();
+        emailList.add("mentorshipobss@gmail.com");
+
+        if (emailList.contains(email)) {
+            System.out.println("true");
+            return true;
+        } else {
+            System.out.println("false");
+            return false;
+        }
     }
 
     @Override
@@ -79,12 +98,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         final String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
 
+
+        if (!checkEmail(oAuth2UserInfo.getEmail())) {
+            ApiError apiError = new ApiError(false, 400, "Validation Error", "/api/auth/signup");
+            Map<String, String> validationErrors = new HashMap<>();
+            validationErrors.put("email", "There is no registration.");
+            apiError.setValidationErrors(validationErrors);
+            throw new IllegalArgumentException("There is no email registration");
+        }
+
+
         User user = new User();
         user.setProvider(AuthProvider.valueOf(registrationId.toUpperCase()));
         user.setProviderId(oAuth2UserInfo.getId());
         user.setUsername(oAuth2UserInfo.getUsername());
         user.setDisplayName(oAuth2UserInfo.getGivenName());
         user.setEmail(oAuth2UserInfo.getEmail());
+        user.setRole(Role.USER);
 
         return userRepository.save(user);
     }
