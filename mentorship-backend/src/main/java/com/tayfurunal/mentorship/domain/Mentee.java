@@ -21,4 +21,11 @@ public class Mentee {
 
     @OneToOne
     private User user;
+
+    @Override
+    public String toString() {
+        return "Mentee{" +
+                "id=" + id +
+                '}';
+    }
 }

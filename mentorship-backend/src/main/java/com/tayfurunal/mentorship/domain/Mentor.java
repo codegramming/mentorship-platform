@@ -55,4 +55,15 @@ public class Mentor {
         ACCEPTED,
         NOT_ACCEPTED
     }
+
+    @Override
+    public String toString() {
+        return "Mentor{" +
+                "id=" + id +
+                ", mainTopic='" + mainTopic + '\'' +
+                ", subTopics='" + subTopics + '\'' +
+                ", thoughts='" + thoughts + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
