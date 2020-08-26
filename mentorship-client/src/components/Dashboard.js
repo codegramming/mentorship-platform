@@ -58,7 +58,7 @@ class MyApplication extends Component {
                       <>
                         <div key={index}>
                           <Link
-                            to={`/selectMentor/${mentor.id}`}
+                            to={`/mentorshipDetails/${mentor.id}`}
                             className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                           >
                             <div className='card-body'>
@@ -117,7 +117,7 @@ class MyApplication extends Component {
                       <>
                         <div key={index}>
                           <Link
-                            to={`/selectMentor/${mentee.id}`}
+                            to={`/mentorshipDetails/${mentee.id}`}
                             className='card p-0 mb-3 border-0 shadow-sm shadow--on-hover'
                           >
                             <div className='card-body'>
