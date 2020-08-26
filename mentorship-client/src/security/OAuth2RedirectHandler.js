@@ -19,7 +19,7 @@ class OAuth2RedirectHandler extends Component {
 
     if (token) {
       localStorage.setItem(ACCESS_TOKEN, `Bearer ${token}`);
-      localStorage.setItem('roles', 'USER');
+      localStorage.setItem('roles', 'ROLE_USER');
       const { state } = this.props.location;
       window.location = state ? state.from.pathname : '/';
       return (
@@ -34,7 +34,7 @@ class OAuth2RedirectHandler extends Component {
       return (
         <Redirect
           to={{
-            pathname: '/login',
+            pathname: '/',
             state: {
               from: this.props.location,
               error: error,
