@@ -50,6 +50,7 @@ public class MentorshipServiceImpl implements MentorshipService {
         User user = userRepository.getByUsername(username);
 
         Mentor mentor = mentorRepository.getById(mentorshipDto.getMentorId());
+
         var mentees = mentor.getMentees();
         Mentee existMentee =
                 mentees.stream().filter(mentee -> mentee.getUser().equals(user)).findFirst().orElse(null);
@@ -132,6 +133,14 @@ public class MentorshipServiceImpl implements MentorshipService {
 
     @Override
     public ResponseEntity<?> completePhase(Long id, String username, PhaseRequest phaseRequest) {
+        if (phaseRequest.getAssessment().isEmpty()) {
+            ApiError apiError = new ApiError(false, 400, "Validation Error", "/api/mentorships");
+            Map<String, String> validationErrors = new HashMap<>();
+            validationErrors.put("assesment", "Assesment cannot be blank");
+            apiError.setValidationErrors(validationErrors);
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
         Phase phase = phaseRepository.getById(id);
         Mentorship mentorship = phase.getMentorship();
         UserDetails userDetails = detectUser(mentorship, username);
@@ -143,14 +152,16 @@ public class MentorshipServiceImpl implements MentorshipService {
                 phase.setStatus(Phase.phaseStatus.COMPLETED);
             } else {
                 phase.setStatus(Phase.phaseStatus.PENDING);
-                if (mentorship.getCurrentPhase() <= mentorship.getNumberOfPhases()) {
+                if (mentorship.getCurrentPhase() < mentorship.getNumberOfPhases()) {
                     mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
                 }
             }
 
             mentorship.getPhases().forEach(phase1 -> {
                 if (phase1.getPhaseId().equals(mentorship.getCurrentPhase())) {
-                    phase1.setStatus(Phase.phaseStatus.ACTIVE);
+                    if (!phase.getPhaseId().equals(mentorship.getNumberOfPhases())) {
+                        phase1.setStatus(Phase.phaseStatus.ACTIVE);
+                    }
                 }
             });
             phase.setIsMentorFinish(true);
@@ -167,7 +178,7 @@ public class MentorshipServiceImpl implements MentorshipService {
                 phase.setStatus(Phase.phaseStatus.COMPLETED);
             } else {
                 phase.setStatus(Phase.phaseStatus.PENDING);
-                if (mentorship.getCurrentPhase() <= mentorship.getNumberOfPhases()) {
+                if (mentorship.getCurrentPhase() < mentorship.getNumberOfPhases()) {
                     mentorship.setCurrentPhase(mentorship.getCurrentPhase() + 1);
                 }
 
@@ -175,7 +186,9 @@ public class MentorshipServiceImpl implements MentorshipService {
 
             mentorship.getPhases().forEach(phase1 -> {
                 if (phase1.getPhaseId().equals(mentorship.getCurrentPhase())) {
-                    phase1.setStatus(Phase.phaseStatus.ACTIVE);
+                    if (!phase.getPhaseId().equals(mentorship.getNumberOfPhases())) {
+                        phase1.setStatus(Phase.phaseStatus.ACTIVE);
+                    }
                 }
             });
             phase.setIsMenteeFinish(true);

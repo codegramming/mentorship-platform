@@ -51,6 +51,9 @@ class CompletePhase extends Component {
       )
       .then(() => {
         this.props.history.goBack();
+      })
+      .catch((error) => {
+        this.setState({ errors: error.response.data.validationErrors });
       });
   };
 
@@ -69,7 +72,7 @@ class CompletePhase extends Component {
 
                 {Object.keys(errors).length !== 0 && (
                   <div className='alert alert-danger' role='alert'>
-                    Please fill out all fields.
+                    {errors.assesment}
                   </div>
                 )}
 

@@ -25,6 +25,7 @@ class SelectMentor extends Component {
       isMentor: false,
       isMentee: false,
       phases: [],
+      errors: {},
     };
   }
 
@@ -129,9 +130,13 @@ class SelectMentor extends Component {
       this.props.history.push('/');
     } else {
       const { id } = this.props.match.params;
-      this.getMentorship(id).then(() => {
-        this.getCurrentUser();
-      });
+      this.getMentorship(id)
+        .then(() => {
+          this.getCurrentUser();
+        })
+        .catch((err) => {
+          this.setState({ errors: err.response.data.message });
+        });
     }
   }
 
@@ -167,6 +172,14 @@ class SelectMentor extends Component {
           <div className='container'>
             <div className='row'>
               <div className='col-md-6'>
+                {Object.keys(this.state.errors).length !== 0 && (
+                  <div className='alert alert-danger' role='alert'>
+                    {this.state.errors === 'No message available'
+                      ? 'Mentorship not found'
+                      : this.state.errors}
+                  </div>
+                )}
+
                 <table className='table table-hover'>
                   <thead>
                     <tr></tr>

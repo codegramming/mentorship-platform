@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
 
@@ -104,16 +105,23 @@ public class MentorServiceImpl implements MentorService {
             mentors = mentorRepository.findAllByStatusEqualsAndMainTopicEquals(Mentor.progressStatus.ACCEPTED, main);
         } else {
             List<Mentor> mentorList = mentorRepository.findAllByStatusEquals(Mentor.progressStatus.ACCEPTED);
-            /*mentorList.forEach((mentor -> {
-                User user = new User();
-                user.setId(mentor.getUser().getId());
-                user.setEmail(mentor.getUser().getEmail());
-                user.setUsername(mentor.getUser().getUsername());
-                user.setDisplayName(mentor.getUser().getDisplayName());
-                mentor.setUser(user);
-            }
-            ));
-            mentorSearchRepository.saveAll(mentorList);*/
+            List<Mentor> searchList = mentorSearchRepository.findAll();
+
+            searchList.forEach(mentor -> {
+                AtomicBoolean isExist = new AtomicBoolean(false);
+                mentorList.forEach(exitMentor -> {
+                            if (mentor.getId().equals(exitMentor.getId())) {
+                                isExist.set(true);
+                            }
+                        }
+                );
+                if (!isExist.get()) {
+                    System.out.println("removed");
+                    System.out.println(mentor);
+                    mentorSearchRepository.delete(mentor);
+                }
+            });
+
             mentors = subs != null ? mentorSearchRepository.findBySubTopics(subs) :
                     mentorSearchRepository.findByThoughts(thoughts);
         }
