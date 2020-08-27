@@ -2,7 +2,6 @@ package com.tayfurunal.mentorship.domain;
 
 import org.hibernate.annotations.OrderBy;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,9 +40,7 @@ public class Mentorship {
     @OneToOne
     Mentee mentee;
 
-    Date nowDate = new Date();
-    DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-    String startDate = fmt.format(nowDate);
+    String startDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
     @OneToMany(mappedBy = "mentorship", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy(clause = "phaseId")
