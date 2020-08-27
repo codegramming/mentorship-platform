@@ -39,14 +39,23 @@ export default function TimeOption() {
       <option>14:20</option>
       <option>14:25</option>
       <option>14:30</option>
+      <option>14:35</option>
       <option>14:40</option>
+      <option>14:45</option>
       <option>14:50</option>
+      <option>14:55</option>
       <option>15:00</option>
+      <option>15:05</option>
       <option>15:10</option>
+      <option>15:15</option>
       <option>15:20</option>
+      <option>15:25</option>
       <option>15:30</option>
+      <option>15:35</option>
       <option>15:40</option>
+      <option>15:45</option>
       <option>15:50</option>
+      <option>15:55</option>
       <option>16:00</option>
       <option>16:10</option>
       <option>16:20</option>
