@@ -1,6 +1,7 @@
 INSERT INTO users VALUES (1000, 'Tayfur Ünal', 'mtayfurunal@gmail.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL,'USER', 'user1');
-INSERT INTO users VALUES (1001, 'Mehmet Kaya', 'cazmixx@gmail.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL, 'USER','user2');
+INSERT INTO users VALUES (1001, 'Mehmet Kaya', 'test2@gmail.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL, 'USER','user2');
 INSERT INTO users VALUES (1002, 'Fatma Deniz', 'test3@test.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL,'USER', 'user3');
+INSERT INTO users VALUES (1003, 'Elif Aydın', 'test4@test.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL,'USER', 'user4');
 INSERT INTO users VALUES (2000, 'Tayfur Ünal', 'admin@test.com', '$2a$10$F00U/hsXrqV/p/b1XDilDeGNhCAFbi6dXlMe503FGCjLuC0ttXMRW','LOCAL',NULL,'ADMIN', 'admin');
 INSERT INTO mentor VALUES (300, 'Backend Development', 'IN_PROGRESS', 'Spring Framework, Java', 'Merhaba, ben Tayfur Ünal. Sakarya Üniversitesi Bilgisayar Mühendisliği mezunuyum ve 10 senedir yazılım mühendisi olarak çalışıyorum. Spring Framework, Java ve Javascript kullanarak geliştirme yapıyorum.', 1000);
 INSERT INTO mentor VALUES (301, 'Frontend Development', 'IN_PROGRESS', 'Javascript, React', 'Merhaba, ben Mehmet Kaya. İstanbul Üniversitesi Bilgisayar Mühendisliği mezunuyum ve 5 senedir yazılım mühendisi olarak çalışıyorum. Javascript, React ve CSS kullanarak geliştirme yapıyorum.', 1001);
