@@ -41,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private boolean checkEmail(String email) {
         List<String> emailList = new ArrayList<>();
-        emailList.add("mentorshipobss@gmail.com");
+        emailList.add("cazmixx@gmail.com");
 
         if (emailList.contains(email)) {
             System.out.println("true");
